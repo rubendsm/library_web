@@ -1,0 +1,99 @@
+
+.description {
+    font-size: 30px;
+    margin-left: 0.4em;
+}
+
+.div-icon-span {
+    display: flex;
+    align-items: center;
+}
+
+.form-field {
+    position: relative;
+    display: inline-block;
+    margin-top: 2em;
+}
+
+.icon {
+    position: absolute;
+    right: 0;
+    margin-right: 0.5em;
+}
+
+.search-bar {
+    border-radius: 0.8em;
+    width: 16em;
+}
+
+.filter-button {
+    background-color: transparent;
+    border: 0px;
+}
+
+.div-idk {
+    display: flex;
+    justify-content: center;
+    margin-top: 0.5em;
+    margin-bottom: 2em;
+    max-height: 30.3em;
+    overflow-y: scroll;
+}
+
+.cp-table {
+    width: 100%;
+}
+
+.row-head {
+    background-color: grey;
+}
+
+.row-head > tr {
+    display: block;
+}
+
+.tr {
+    border: 3px solid black;
+}
+
+tbody > tr {
+    border: 3px solid black;
+    cursor: pointer;
+}
+
+tbody > tr:nth-child(odd) {
+    background-color: lightgrey;
+}
+
+.asc-des-button {
+    background-color: transparent;
+    border: 0px;
+    margin: 0px;
+    margin-left: 2px;
+    margin-bottom: 3px;
+    padding: 0px;
+}
+
+.float-right-button {
+    float: right;
+    margin-top: 2em;
+    background-color: transparent;
+    border: 3px solid black;
+}
+
+.pop-up {
+    position: absolute;
+    transform: translate3d(-44px, 40.8px, 0px);
+    width: fit-content;
+    height: fit-content;
+    border: 3px solid black;
+    background-color: white;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    border-radius: 1em;
+}
+
+.pop-up-text {
+    font-size: 20px;
+    margin-left: 0.5em;
+}
