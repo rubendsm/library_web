@@ -1,38 +1,35 @@
 import { useAuth } from '@/context/AuthContext';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Container, Typography, Paper, Grid } from '@mui/material';
+import { Container, Typography, Paper, Grid, Divider } from '@mui/material';
 import transferService from '@/services/transferService';
 import requestService from '@/services/requestService';
 import { Transfer, TransferStatus } from '@/models/Transfer';
 import { Request, RequestStatus } from '@/models/Request';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
+import GridTable from '@/components/table/GridTable';
+import physicalBookService from '@/services/physicalBookService';
+import { PhysicalBook } from '@/models/PhysicalBook';
+import { set } from 'date-fns';
+import notificationService from '@/services/notificationService';
+import { Notification } from '@/models/Notification';
 
 export const screenName = "pages.LibrarianFrontPage";
 
 function LibrarianFrontPage() {
     const { t } = useTranslation();
-    const [libraryName, setLibraryName] = useState<string>("");
     const [date, setDate] = useState<string>("");
     const { user } = useAuth();
     const [pendingTransfers, setPendingTransfers] = useState<number>(0);
     const [pendingRequests, setPendingRequests] = useState<number>(0);
+    const [pendingNotifications, setPendingNotifications] = useState<number>(0);
+    const [physicalBooks, setPhysicalBooks] = useState<PhysicalBook[]>([]);
+    const [update, setUpdate] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        /* Informação duplicada ja na toolbar , acho desnecessario
-        const fetchData = async () => {
-            try {
-                const response = await libraryService.getLibraryById(user.LibraryId);
-
-                if (response.status === 200) {
-                    setLibraryName(response.data.libraryAlias);
-                }
-
-            } catch (error) {
-                console.error(error);
-            }
-        }; */
+        setIsLoading(true);
 
         const fetchTransfers = async () => {
             try {
@@ -69,13 +66,58 @@ function LibrarianFrontPage() {
             }
         };
 
+        const fetchNotifications = async () => {
+            try {
+                const response = await notificationService.getAllNotificationsByLibraryIdForLibrary(user.LibraryId);
+
+                if (response.status === 200) {
+                    const allNotifications: Notification[] = response.data;  // Fornecer explicitamente o tipo
+                    const currentDate = new Date();
+                    const pendingNotificationsCount = allNotifications.filter((notification: Notification) => {
+                        // Assuming notification.endDate is in "dd/mm/yyyy" format
+                        const [day, month, year] = notification.endDate.toString().split('/');
+                        const endDate = new Date(`${month}/${day}/${year}`);
+
+                        return endDate > currentDate;
+                    }).length;
+
+                    setPendingNotifications(pendingNotificationsCount);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        const fetchCopiesTransfer = async () => {
+            try {
+                const response = await physicalBookService.getAllPhysicalBooksWithTransferStatusForLibrary(user.LibraryId);
+
+                if (response.status === 200) {
+                    setPhysicalBooks(response.data);
+                }
+
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
         const today = new Date();
         setDate(today.getDate() + " " + t('months.' + today.getMonth()) + " " + today.getFullYear());
 
         //fetchData();
+        fetchCopiesTransfer();
+        fetchNotifications();
         fetchTransfers();
         fetchRequests();
-    }, [user.LibraryId]);
+
+        setUpdate(false);
+        setIsLoading(false);
+
+    }, [user.LibraryId, update]);
+
+    const handleMenuClose = () => {
+        setUpdate(true);
+    };
 
     return (
         <>
@@ -86,9 +128,21 @@ function LibrarianFrontPage() {
             <p>{date}</p>
             {/*<h1>{t(screenName + ".header.library")} {libraryName}, ID {user.LibraryId}</h1>*/}
 
-            <Container maxWidth="md" style={{ marginTop: '20px' }}>
+            <Container style={{ marginTop: '20px' }}>
                 <Grid container spacing={3}>
-                    <Grid item xs={6}>
+                    <Grid item xs={4}>
+                        <Paper elevation={3} style={{ padding: '20px', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                            <Typography variant="h5" gutterBottom>
+                                {t(screenName + ".dashboard.notifications_pending")}
+                            </Typography>
+                            <Link to="/transfers" style={{ textDecoration: 'none' }}>
+                                <Typography variant="h3" className="bold-black">
+                                    {pendingNotifications}
+                                </Typography>
+                            </Link>
+                        </Paper>
+                    </Grid>
+                    <Grid item xs={4}>
                         <Paper elevation={3} style={{ padding: '20px', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                             <Typography variant="h5" gutterBottom>
                                 {t(screenName + ".dashboard.transfers_pending")}
@@ -100,7 +154,7 @@ function LibrarianFrontPage() {
                             </Link>
                         </Paper>
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={4}>
                         <Paper elevation={3} style={{ padding: '20px', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                             <Typography variant="h5" gutterBottom>
                                 {t(screenName + ".dashboard.requests_pending")}
@@ -113,6 +167,25 @@ function LibrarianFrontPage() {
                         </Paper>
                     </Grid>
                 </Grid>
+                <Divider sx={{ my: 2 }} />
+                {isLoading ? (
+                    <img src="src\assets\loading.svg" alt="Loading" style={{ width: '60px', height: '60px' }} />
+                ) : (
+                    <>
+                        {physicalBooks.length != 0 ? (
+                            <>
+                                <Typography variant="h5" gutterBottom>
+                                    {t(screenName + ".dashboard.transfer_books")}
+                                </Typography>
+                                <GridTable rows={physicalBooks as []} columnName={'physicalBooks'} onMenuClose={handleMenuClose} />
+                            </>
+                        ) : (
+                            <Typography variant="h5" gutterBottom>
+                                {t(screenName + ".dashboard.transfer_books_empty")}
+                            </Typography>
+                        )}
+                    </>
+                )}
             </Container>
 
 

@@ -33,9 +33,6 @@ const GenericBooksTableMenu: React.FC<GenericBooksTableMenuProps> = ({ selectedR
     const handleEditClick = () => {
         navigate(`/books/edit?isbn=${selectedRow.isbn}`);
     };
-    const handleViewReviewsClick = () => {
-        navigate(`/books/reviews?isbn=${selectedRow.isbn}`);
-    };
     const handleDeleteClick = () => {
         //navigate(`/books/delete?isbn=${selectedRow.isbn}`);
     };
@@ -60,9 +57,6 @@ const GenericBooksTableMenu: React.FC<GenericBooksTableMenuProps> = ({ selectedR
                 </MenuItem>
                 <MenuItem key="edit" onClick={handleEditClick}>
                     <Edit sx={{ marginRight: 1 }} /> {t(screenName + "3")}
-                </MenuItem>
-                <MenuItem key="reviews" onClick={handleViewReviewsClick}>
-                    <Reviews sx={{ marginRight: 1 }} /> {t(screenName + "4")}
                 </MenuItem>
                 <Divider />
                 <MenuItem key="delete" onClick={handleDeleteClick}>

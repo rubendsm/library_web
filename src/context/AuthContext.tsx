@@ -46,10 +46,9 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
                 // Check if the user has the required role
                 const allowedRoles = ['Admin', 'Librarian']
                 // Check if the user has the required role (replace 'requiredRole' with the actual role you are checking for)
-                if (decodedToken) {
+                if (decodedToken && allowedRoles.includes(role)) {
                     setToken(accessToken);
                     setUser(decodedToken);
-                    console.log(decodedToken)
                     localStorage.setItem('token', accessToken);
                     navigate('/');
                 } else {
@@ -77,7 +76,12 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
             }
 
         } catch {
-            alert("There's was a problem during logout.")
+
+            setUser(null)
+            setToken(null)
+            localStorage.removeItem('token')
+            navigate('/login')
+
         }
     }
 

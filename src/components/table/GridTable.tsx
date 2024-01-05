@@ -22,10 +22,10 @@ import AuthorsTableMenu from '@/components/menus/AuthorsTableMenu';
 import CategoriesTableMenu from '@/components/menus/CategoriesTableMenu';
 import { Category } from '@/models/Category';
 import { Author } from '@/models/Author';
-import { useAuth } from '@/context/AuthContext';
 import { GenericBook } from '@/models/GenericBook';
 import GenericBooksTableMenu from '@/components/menus/GenericBooksTableMenu';
 import { useTranslation } from 'react-i18next';
+import PhysicalBooksTableMenu from '../menus/PhysicalBooksTableMenu';
 
 interface GridTableProps {
     rows: [];
@@ -45,6 +45,7 @@ const GridTable = ({ rows, columnName, onMenuClose }: GridTableProps) => {
     const [categoriesMenuAnchor, setCategoriesMenuAnchor] = useState<null | HTMLElement>(null);
     const [genericBooksMenuAnchor, setGenericBooksMenuAnchor] = useState<null | HTMLElement>(null);
     const [physicalBooksMenuAnchor, setPhysicalBooksMenuAnchor] = useState<null | HTMLElement>(null);
+    const [notificationsMenuAnchor, setNotificationsMenuAnchor] = useState<null | HTMLElement>(null);
     const [selectedRow, setSelectedRow] = useState<any>();
 
     const [isSuccessDialogOpen, setSuccessDialogOpen] = useState(false);
@@ -54,9 +55,6 @@ const GridTable = ({ rows, columnName, onMenuClose }: GridTableProps) => {
     const [msg_failure, setMsgFailure] = useState("");
 
     const { t } = useTranslation();
-
-    const { user } = useAuth();
-
 
     const handleRequestsMenuOpen = (event: React.MouseEvent<HTMLButtonElement>, row: Request) => {
         setRequestsMenuAnchor(event.currentTarget);
@@ -90,6 +88,10 @@ const GridTable = ({ rows, columnName, onMenuClose }: GridTableProps) => {
         setPhysicalBooksMenuAnchor(event.currentTarget);
         setSelectedRow(row);
     };
+    const handleOnNotificationsMenuOpen = (event: React.MouseEvent<HTMLButtonElement>, row: any) => {
+        setNotificationsMenuAnchor(event.currentTarget);
+        setSelectedRow(row);
+    }
 
 
     const deletePunishment = async () => {
@@ -108,7 +110,7 @@ const GridTable = ({ rows, columnName, onMenuClose }: GridTableProps) => {
             if (error.response.status === 500) {
                 setMsgFailure("components.dialogs.failure.error_500")
                 setFailureDialogOpen(true);
-            } 
+            }
         }
 
         onMenuClose();
@@ -122,6 +124,7 @@ const GridTable = ({ rows, columnName, onMenuClose }: GridTableProps) => {
         setCategoriesMenuAnchor(null);
         setGenericBooksMenuAnchor(null);
         setPhysicalBooksMenuAnchor(null);
+        setNotificationsMenuAnchor(null);
     };
 
     const handlers: Handlers = {
@@ -133,6 +136,7 @@ const GridTable = ({ rows, columnName, onMenuClose }: GridTableProps) => {
         categories: handleOnCategoriesMenuOpen,
         genericBooks: handleOnGenericBooksMenuOpen,
         physicalBooks: handleOnPhysicalBooksMenuOpen,
+        notifications: handleOnNotificationsMenuOpen
     };
 
     return (
@@ -178,6 +182,7 @@ const GridTable = ({ rows, columnName, onMenuClose }: GridTableProps) => {
             {columnName === 'authors' && <AuthorsTableMenu selectedRow={selectedRow} anchorEl={authorsMenuAnchor} onClose={() => { handleMenuClose(); onMenuClose(); }} />}
             {columnName === 'categories' && <CategoriesTableMenu selectedRow={selectedRow} anchorEl={categoriesMenuAnchor} onClose={() => { handleMenuClose(); onMenuClose(); }} />}
             {columnName === 'genericBooks' && <GenericBooksTableMenu selectedRow={selectedRow} anchorEl={genericBooksMenuAnchor} onClose={() => { handleMenuClose(); onMenuClose(); }} />}
+            {columnName === 'physicalBooks' && <PhysicalBooksTableMenu selectedRow={selectedRow} anchorEl={physicalBooksMenuAnchor} onClose={() => { handleMenuClose(); onMenuClose(); }} />}
 
             {/* Render SuccessDialog only when isSuccessDialogOpen is true */}
             {isSuccessDialogOpen && (

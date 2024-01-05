@@ -18,12 +18,13 @@ interface RowType {
   categoryId: number;
   isbn: string;
   physicalBookId: number;
+  notificationId: number;
   // Add other properties based on your actual data structure
 }
 
 export const getColumns = <T extends RowType>(columnName: string, onMenuOpen: (event: React.MouseEvent<HTMLButtonElement>, row: T) => void): GridColDef[] => {
-// eslint-disable-next-line react-hooks/rules-of-hooks
-const { t } = useTranslation();
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { t } = useTranslation();
 
   const { user } = useAuth();
 
@@ -36,8 +37,8 @@ const { t } = useTranslation();
         { field: 'physicalId', headerName: t(screenName + "requests.physicalID"), type: 'number', flex: 1, align: 'center', headerAlign: 'center', headerClassName: 'header', renderCell: (params) => params.row.physicalBook?.physicalBookId || 'N/A', },
         { field: 'isbn', headerName: t(screenName + "requests.isbn"), flex: 2, align: 'center', headerAlign: 'center', headerClassName: 'header' },
         { field: 'user', headerName: t(screenName + "requests.user"), flex: 2, align: 'center', headerAlign: 'center', headerClassName: 'header', renderCell: (params) => params.row.user?.userEmail || 'N/A', },
-        { field: 'startDate', headerName: t(screenName + "requests.startDate"), flex: 2, align: 'center', headerAlign: 'center', headerClassName: 'header', renderCell: (params) => new Date(params.value as string).toLocaleDateString() },
-        { field: 'endDate', headerName: t(screenName + "requests.endDate"), flex: 2, align: 'center', headerAlign: 'center', headerClassName: 'header', renderCell: (params) => params.value ? new Date(params.value as string).toLocaleDateString() : 'N/A' },
+        { field: 'startDate', headerName: t(screenName + "requests.startDate"), flex: 2, align: 'center', headerAlign: 'center', headerClassName: 'header' },
+        { field: 'endDate', headerName: t(screenName + "requests.endDate"), flex: 2, align: 'center', headerAlign: 'center', headerClassName: 'header', renderCell: (params) => params.value ? params.value : 'N/A' },
         { field: 'requestStatus', headerName: t(screenName + "requests.requestStatus"), flex: 2, align: 'center', headerAlign: 'center', headerClassName: 'header', renderCell: (params) => getRequestStatusLabel(params.value as RequestStatus) },
         {
           field: 'actions', headerName: '', flex: 1, align: 'center', headerAlign: 'center', disableColumnMenu: true, sortable: false, headerClassName: 'header',
@@ -55,8 +56,8 @@ const { t } = useTranslation();
         { field: 'physicalBookStatus', headerName: t(screenName + "transfers.physicalBookStatus"), flex: 2, align: 'center', headerAlign: 'center', headerClassName: 'header', renderCell: (params) => getPhysicalBookStatusLabel(params.row.physicalBook.physicalBookStatus as PhysicalBookStatus) },
         { field: 'sourceLibrary', headerName: t(screenName + "transfers.sourceLibrary"), flex: 2, align: 'center', headerAlign: 'center', headerClassName: 'header', renderCell: (params) => params.row.sourceLibrary.libraryAlias },
         { field: 'destinationLibrary', headerName: t(screenName + "transfers.destinationLibrary"), flex: 2, align: 'center', headerAlign: 'center', headerClassName: 'header', renderCell: (params) => params.row.destinationLibrary.libraryAlias },
-        { field: 'startDate', headerName: t(screenName + "transfers.startDate"), flex: 2, align: 'center', headerAlign: 'center', headerClassName: 'header', renderCell: (params) => new Date(params.value as string).toLocaleDateString() },
-        { field: 'endDate', headerName: t(screenName + "transfers.endDate"), flex: 2, align: 'center', headerAlign: 'center', headerClassName: 'header', renderCell: (params) => new Date(params.value as string).toLocaleDateString() },
+        { field: 'startDate', headerName: t(screenName + "transfers.startDate"), flex: 2, align: 'center', headerAlign: 'center', headerClassName: 'header' },
+        { field: 'endDate', headerName: t(screenName + "transfers.endDate"), flex: 2, align: 'center', headerAlign: 'center', headerClassName: 'header' },
         { field: 'transferStatus', headerName: t(screenName + "transfers.transferStatus"), flex: 2, align: 'center', headerAlign: 'center', headerClassName: 'header', renderCell: (params) => getTransferStatusLabel(params.value as TransferStatus) },
         {
           field: 'actions', headerName: '', flex: 1, align: 'center', headerAlign: 'center', disableColumnMenu: true, sortable: false, headerClassName: 'header',
@@ -131,7 +132,7 @@ const { t } = useTranslation();
         { field: 'isbn', headerName: t(screenName + "genericBooks.isbn"), flex: 1, align: 'center', headerAlign: 'center', headerClassName: 'header' },
         { field: 'title', headerName: t(screenName + "genericBooks.title"), flex: 3, align: 'center', headerAlign: 'center', headerClassName: 'header' },
         { field: 'pageNumber', headerName: t(screenName + "genericBooks.pageNumber"), flex: 1, align: 'center', headerAlign: 'center', headerClassName: 'header' },
-        { field: 'datePublished', headerName: t(screenName + "genericBooks.datePublished"), flex: 2, align: 'center', headerAlign: 'center', headerClassName: 'header', renderCell: (params) => new Date(params.value as string).toLocaleDateString() },
+        { field: 'datePublished', headerName: t(screenName + "genericBooks.datePublished"), flex: 2, align: 'center', headerAlign: 'center', headerClassName: 'header' },
         { field: 'language', headerName: t(screenName + "genericBooks.language"), flex: 1, align: 'center', headerAlign: 'center', headerClassName: 'header', renderCell: (params) => params.row.language?.languageAlias || 'N/A', },
         { field: 'authors', headerName: t(screenName + "genericBooks.authors"), flex: 2, align: 'center', headerAlign: 'center', headerClassName: 'header', renderCell: (params) => (params.row.authors && params.row.authors.length > 0) ? params.row.authors.map((author: any) => author.authorName).join(', ') : 'N/A', },
         {
@@ -156,6 +157,23 @@ const { t } = useTranslation();
         { field: 'genericBook', headerName: t(screenName + "physicalBooks.genericBook"), flex: 1, align: 'center', headerAlign: 'center', headerClassName: 'header', renderCell: (params) => params.row.genericBook.isbn },
         { field: 'libraryAlias', headerName: t(screenName + "physicalBooks.libraryAlias"), flex: 1, align: 'center', headerAlign: 'center', headerClassName: 'header', renderCell: (params) => params.row.library.libraryAlias || 'N/A' },
         { field: 'physicalBookStatus', headerName: t(screenName + "physicalBooks.physicalBookStatus"), flex: 1, align: 'center', headerAlign: 'center', headerClassName: 'header', renderCell: (params) => getPhysicalBookStatusLabel(params.value as PhysicalBookStatus) },
+        {
+          field: 'actions', headerName: '', flex: 1, align: 'center', headerAlign: 'center', disableColumnMenu: true, sortable: false, headerClassName: 'header',
+          renderCell: (params) => (
+            <IconButton sx={{ color: 'black' }} onClick={(event) => onMenuOpen(event, params.row as T)}>
+              <Settings />
+            </IconButton>
+          ),
+        }
+      ]
+    case 'notifications':
+      return [
+        { field: 'notificationId', headerName: t(screenName + "notifications.notificationID"), flex: 1, align: 'center', headerAlign: 'center', headerClassName: 'header' },
+        { field: 'notificationTitle', headerName: t(screenName + "notifications.notificationTitle"), flex: 1, align: 'center', headerAlign: 'center', headerClassName: 'header' },
+        { field: 'notificationDescription', headerName: t(screenName + "notifications.notificationDescription"), flex: 5, align: 'center', headerAlign: 'center', headerClassName: 'header' },
+        { field: 'emittedDate', headerName: t(screenName + "notifications.emittedDate"), flex: 1, align: 'center', headerAlign: 'center', headerClassName: 'header' },
+        { field: 'endDate', headerName: t(screenName + "notifications.endDate"), flex: 1, align: 'center', headerAlign: 'center', headerClassName: 'header' },
+        { field: 'forAll', headerName: t(screenName + "notifications.forAll"), flex: 1, align: 'center', headerAlign: 'center', headerClassName: 'header' },
         {
           field: 'actions', headerName: '', flex: 1, align: 'center', headerAlign: 'center', disableColumnMenu: true, sortable: false, headerClassName: 'header',
           renderCell: (params) => (
@@ -190,6 +208,8 @@ export const getRowId = (columnName: string): (row: RowType) => string => {
       return (row: RowType) => row.isbn.toString();
     case 'physicalBooks':
       return (row: RowType) => row.physicalBookId.toString();
+    case 'notifications':
+      return (row: RowType) => row.notificationId.toString();
     default:
       // Return a default function or handle the case where the columnName is not recognized
       return (row: RowType) => row.defaultId?.toString();

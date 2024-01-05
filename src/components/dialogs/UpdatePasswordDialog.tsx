@@ -67,7 +67,7 @@ const UpdatePasswordDialog: React.FC<InputNameDialogProps> = ({
                         fullWidth
                         id="current"
                         label={t(screenName + "currentPassword")}
-                        type="text"
+                        type="password"
                         value={currentPassword}
                         onChange={onCurrentPasswordChange}
                         sx={{ mt: 2 }} />
@@ -77,7 +77,7 @@ const UpdatePasswordDialog: React.FC<InputNameDialogProps> = ({
                         fullWidth
                         id="new"
                         label={t(screenName + "newPassword")}
-                        type="text"
+                        type="password"
                         value={newPassword}
                         onChange={onNewPasswordChange}
                         sx={{ mt: 2 }} />
