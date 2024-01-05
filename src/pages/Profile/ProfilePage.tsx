@@ -1,6 +1,7 @@
 import FailureDialog from "@/components/dialogs/FailureDialog";
 import SuccessDialog from "@/components/dialogs/SuccessDialog";
 import UpdatePasswordDialog from "@/components/dialogs/UpdatePasswordDialog";
+import { useAuth } from "@/context/AuthContext";
 import { UpdatePasswordDTO } from "@/models/User";
 import libraryService from "@/services/libraryService";
 import userService from "@/services/userService";
@@ -23,7 +24,8 @@ const ProfilePage = () => {
     const [update, setUpdate] = useState(false);
     const [libraryAlias, setLibraryAlias] = useState("");
 
-    const user = jwtDecode(localStorage.getItem("token") as string);
+
+    const { user } = useAuth();
 
     const screenName = "pages.ProfilePage.";
     const msg_failure = "components.dialogs.failure.password";
@@ -35,7 +37,6 @@ const ProfilePage = () => {
         const fetchData = async () => {
             try {
                 const response = await libraryService.getLibraryById(user.LibraryId as number);
-
                 if (response.status === 200) {
                     setLibraryAlias(response.data.libraryAlias);
                 }
@@ -81,9 +82,9 @@ const ProfilePage = () => {
         }
 
         try {
-            const response = await userService.updateUserPassword(user.Id, updateData);
+            const response = await userService.updateUserPassword(user.LibraryId, updateData);
 
-            if (response.status === 200) {
+            if (response.status === 201) {
                 setSuccessDialogOpen(true);
             } else {
                 setFailureDialogOpen(true);
@@ -103,10 +104,10 @@ const ProfilePage = () => {
     return (
         <div>
             <Typography variant="h3" style={{ justifyContent: 'center', marginBottom: '20px' }} >
-                { t(screenName + "title") }
+                {t(screenName + "title")}
             </Typography>
             <Button variant="contained" color='secondary' onClick={handleBackClick}>
-                { t(screenName + "backButton") }
+                {t(screenName + "backButton")}
             </Button>
             <Divider sx={{ my: 2 }} />
             {isLoading ? (
@@ -143,14 +144,14 @@ const ProfilePage = () => {
                 </>
             )}
             <UpdatePasswordDialog
-                title={ t(screenName + "dialogTitle") }
+                title={t(screenName + "dialogTitle")}
                 isDialogOpen={isPasswordDialogOpen}
                 onDialogClose={handleDialogClose}
                 onConfirmButton={handleConfirm}
                 currentPasswordChange={handleCurrentPasswordChange}
                 newPasswordChange={handleNewPasswordChange}
             />
-            
+
             {/* Render SuccessDialog only when isSuccessDialogOpen is true */}
             {isSuccessDialogOpen && (
                 <SuccessDialog

@@ -98,7 +98,7 @@ const Step2Form: React.FC<Step2FormProps> = ({ step1Choice, libraryId, onGeneric
                         onGenericBookChange(selectedValue);
                     }}
                     renderInput={(params) => (
-                        <TextField {...params} label="Select book" fullWidth />
+                        <TextField {...params} label={t(screenName + "label1")} fullWidth />
                     )} />
             )}
             {isPhysicalBooksLoading && selectedGenericBook ? (
@@ -107,7 +107,7 @@ const Step2Form: React.FC<Step2FormProps> = ({ step1Choice, libraryId, onGeneric
                 <>
                     {physicalBooks.length > 0 && (
                         <TextField
-                            label={t(screenName + ".label1")}
+                            label={t(screenName + "label2")}
                             value={selectedPhysicalBook || ''}
                             onChange={handlePhysicalBookChange}
                             fullWidth

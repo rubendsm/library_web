@@ -112,6 +112,15 @@ i18n
                                 title: "Title",
                                 userID: "User ID",
                                 userName: "User Name"
+                            },
+                            notifications: {
+                                notificationID: "ID",
+                                notificationTitle: "Title",
+                                notificationDescription: "Description",
+                                emittedDate: "Start Date",
+                                endDate: "End Date",
+                                forAll: "For All",
+                                libraryID: "Library ID"
                             }
                         },
                         menus: {
@@ -129,11 +138,11 @@ i18n
                                 3: "Delete (not implemented)"
                             },
                             genericBooks: {
-                                1: "View",
+                                1: "View book",
                                 2: "View/Add Copies",
                                 3: "Edit",
                                 4: "View Reviews (not implemented)",
-                                5: "Delete (not implemented)"
+                                5: "Delete"
                             },
                             requests: {
                                 1: "Cancel",
@@ -151,11 +160,16 @@ i18n
                             users: {
                                 1: "Show requests",
                                 2: "Show punishments"
+                            },
+                            physicalBooks: {
+                                1: "Arrived",
+                                2: "Delete"
                             }
                         },
                         forms: {
                             step2: {
-                                label1: "Select Copy",
+                                label1: "Select Book",
+                                label2: "Select Copy",
                             },
                             step3: {
                                 label1: "Starting Date",
@@ -209,6 +223,10 @@ i18n
                                 library: {
                                     create: "can not create a new library",
                                     exists: "this library already exists"
+                                },
+                                physicalBooks: {
+                                    arrived: "Can not change status to arrived",
+                                    delete: "Can not delete this physical book"
                                 }
                             },
                             inputDate: {
@@ -258,6 +276,10 @@ i18n
                                 },
                                 library: {
                                     create: "New library created successfully"
+                                },
+                                physicalBooks: {
+                                    arrived: "Status changed to arrived successfully",
+                                    delete: "Physical book deleted successfully"
                                 }
                             },
                             updatePassword: {
@@ -289,11 +311,14 @@ i18n
                                 evaluations: 'Evaluations'
                             },
                             dashboard: {
+                                notifications_pending: "Pending Notifications",
                                 requests_pending: "Pending Requests",
                                 transfers_pending: "Pending Transfers",
                                 libraries_list: "Libraries",
                                 alias: "Alias",
-                                address: "Address"
+                                address: "Address",
+                                transfer_books: "Books arriving",
+                                transfer_books_empty: "No books arriving",
                             }
                         },
                         UsersPage: {
@@ -330,7 +355,17 @@ i18n
                                     lan: "Language",
                                     authors: "Author(s)",
                                     categories: "Categories",
-                                    availability: "Available copies in Library"
+                                    availability: "Available copies in Library",
+                                    numberOfEvaluations: "Nº of Evaluations",
+                                    averageEvaluationScore: "Average Evaluation Score",
+                                },
+                                review: {
+                                    title: "Reviews",
+                                    name: "User Name",
+                                    description: "Description",
+                                    score: "Score",
+                                    date: "Date",
+                                    delete: "Delete",
                                 }
                             },
                             copiesPage: {
@@ -401,9 +436,6 @@ i18n
                                 error: "No Categories"
                             },
                             addDialogTitle: "Create Category"
-                        },
-                        EvaluationsPage: {
-                            title: "Evaluations"
                         },
                         LoginPage: {
                             input: {
@@ -500,7 +532,37 @@ i18n
                                 notifications: "Notifications"
                             }
 
-                        }
+                        },
+                        NotificationsPage: {
+                            title: "Notifications",
+                            addButton: "Create Notification",
+                            activeNotifications: {
+                                title: "Active Notifications",
+                                query: {
+                                    label: "Search for Notification (ID)",
+                                    error: "No notifications"
+                                },
+                            },
+                            pastNotifications: {
+                                title: "Past Notifications",
+                                error: "No past notifications"
+                            },
+                            error: "No notifications in library",
+                            addPage: {
+                                title: "Create Notification",
+                                step1: {
+                                    title: "Select User",
+                                    error: "No users available"
+                                },
+                                step2: {
+                                    title: "Select book for notification",
+                                    formControlLabel: "Enter waiting list for book"
+                                },
+                                step3: {
+                                    title: "Select notification deadline"
+                                }
+                            }
+                        },
                     }
                 }
             },
@@ -604,6 +666,15 @@ i18n
                                 title: "Título",
                                 userID: "ID do Utilizador",
                                 userName: "Nome do Utilizador"
+                            },
+                            notifications: {
+                                notificationID: "ID da Notificação",
+                                notificationTitle: "Título da Notificação",
+                                notificationDescription: "Descrição da Notificação",
+                                emittedDate: "Data de Início",
+                                endDate: "Data de Fim",
+                                forAll: "Para Todos",
+                                libraryID: "ID da Biblioteca"
                             }
                         },
                         menus: {
@@ -621,11 +692,11 @@ i18n
                                 3: "Eliminar (não implementado)"
                             },
                             genericBooks: {
-                                1: "Ver",
+                                1: "Ver livro",
                                 2: "Ver/Adicionar Cópias",
                                 3: "Editar",
                                 4: "Ver Avaliações (não implementado)",
-                                5: "Eliminar (não implementado)"
+                                5: "Eliminar"
                             },
                             requests: {
                                 1: "Cancelar",
@@ -643,11 +714,16 @@ i18n
                             users: {
                                 1: "Ver pedidos",
                                 2: "Ver punições"
+                            },
+                            physicalBooks: {
+                                1: "Chegou",
+                                2: "Eliminar"
                             }
                         },
                         forms: {
                             step2: {
-                                label1: "Seleciona uma cópia",
+                                label1: "Seleciona um livro",
+                                label2: "Seleciona uma cópia",
                             },
                             step3: {
                                 label1: "Data de Início",
@@ -701,6 +777,10 @@ i18n
                                 library: {
                                     create: "Não foi possivel criar nova biblioteca",
                                     exists: "Esta biblioteca ja existe"
+                                },
+                                physicalBooks: {
+                                    arrived: "Não foi possivel alterar o estado para chegou",
+                                    delete: "Não foi possivel eliminar este livro fisico"
                                 }
                             },
                             inputDate: {
@@ -750,6 +830,10 @@ i18n
                                 },
                                 library: {
                                     create: "Biblioteca criada com sucesso"
+                                },
+                                physicalBooks: {
+                                    arrived: "Estado alterado para chegou com sucesso",
+                                    delete: "Livro fisico eliminado com sucesso"
                                 }
                             },
                             updatePassword: {
@@ -781,11 +865,14 @@ i18n
                                 evaluations: 'Avaliações'
                             },
                             dashboard: {
+                                notifications_pending: "Notificações pendentes",
                                 requests_pending: "Requisições pendentes",
                                 transfers_pending: "Transferências pendentes",
                                 libraries_list: "Bibliotecas",
                                 alias: "Sigla",
-                                address: "Morada"
+                                address: "Morada",
+                                transfer_books: "Livros a chegar",
+                                transfer_books_empty: "Sem livros a chegar",
                             }
                         },
                         UsersPage: {
@@ -822,7 +909,17 @@ i18n
                                     lan: "Idioma",
                                     authors: "Autor(es)",
                                     categories: "Categorias",
-                                    availability: "Cópias Disponíveis na Biblioteca"
+                                    availability: "Cópias Disponíveis na Biblioteca",
+                                    numberOfEvaluations: "Nº de Avaliações",
+                                    averageEvaluationScore: "Pontuação Média das Avaliações",
+                                },
+                                review: {
+                                    title: "Avaliações",
+                                    name: "Nome do Utilizador",
+                                    description: "Descrição",
+                                    score: "Pontuação",
+                                    date: "Data",
+                                    delete: "Eliminar",
                                 }
                             },
                             copiesPage: {
@@ -893,9 +990,6 @@ i18n
                                 error: "Sem Categorias"
                             },
                             addDialogTitle: "Criar Categoria"
-                        },
-                        EvaluationsPage: {
-                            title: "Avaliações"
                         },
                         LoginPage: {
                             input: {
@@ -992,7 +1086,37 @@ i18n
                                 notifications: "Notificações"
                             }
 
-                        }
+                        },
+                        NotificationsPage: {
+                            title: "Notificações",
+                            addButton: "Criar Notificação",
+                            activeNotifications: {
+                                title: "Notificações Ativas",
+                                query: {
+                                    label: "Procurar por Notificação (ID)",
+                                    error: "Sem notificações"
+                                },
+                            },
+                            pastNotifications: {
+                                title: "Notificações Anteriores",
+                                error: "Sem notificações anteriores"
+                            },
+                            error: "Sem notificações na biblioteca",
+                            addPage: {
+                                title: "Criar Notificação",
+                                step1: {
+                                    title: "Selecionar Utilizador",
+                                    error: "Sem utilizadores disponíveis"
+                                },
+                                step2: {
+                                    title: "Selecionar livro para a notificação",
+                                    formControlLabel: "Entrar na lista de espera para o livro"
+                                },
+                                step3: {
+                                    title: "Selecionar prazo da notificação"
+                                }
+                            }
+                        },
                     }
                 }
             }

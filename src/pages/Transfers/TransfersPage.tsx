@@ -68,10 +68,10 @@ const TransfersPage = () => {
         <div>
             <Typography variant="h3" style={{ justifyContent: 'center', marginBottom: '20px' }} >
                 <SwapHoriz sx={{ color: 'black', width: '75px', height: '75px' }} />
-                { t(screenName + "title") }
+                {t(screenName + "title")}
             </Typography>
             <Button variant="contained" color='secondary' onClick={handleAddButton}>
-                { t(screenName + "addButton") }
+                {t(screenName + "addButton")}
             </Button>
             <Divider sx={{ my: 2 }} />
             {isLoading ? (
@@ -82,7 +82,7 @@ const TransfersPage = () => {
                         <>
                             {activeTransfers.length != 0 ? (
                                 < div >
-                                    <h2>{ t(screenName + "activeTransfers.title") }</h2>
+                                    <h2>{t(screenName + "activeTransfers.title")}</h2>
                                     <TextField
                                         id='searchQuery'
                                         name='searchQuery'
@@ -95,21 +95,21 @@ const TransfersPage = () => {
                                     <GridTable rows={filteredData as []} columnName={'transfers'} onMenuClose={handleMenuClose} />
                                 </div>
                             ) : (
-                                <h2>{ t(screenName + "activeTransfers.error") }</h2>
+                                <h2>{t(screenName + "activeTransfers.error")}</h2>
                             )}
                             <Divider sx={{ my: 2 }} />
                             {pastTransfers.length != 0 ? (
                                 <div>
-                                    <h2>{ t(screenName + "pastTransfers.title") }</h2>
+                                    <h2>{t(screenName + "pastTransfers.title")}</h2>
                                     <GridTable rows={pastTransfers as []} columnName={'transfers'} onMenuClose={handleMenuClose} />
                                 </div>
                             ) : (
-                                <h2>{ t(screenName + "pastTransfers.error") }</h2>
+                                <h2>{t(screenName + "pastTransfers.error")}</h2>
                             )}
                         </>
                     ) : (
                         <>
-                            {!error && <h2>{ t(screenName + "error") }</h2>}
+                            {!error && <h2>{t(screenName + "error")}</h2>}
                             {error && <h2>{error}</h2>}
                         </>
                     )}

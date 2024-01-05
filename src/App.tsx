@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LibrarianFrontPage from '@/pages/FrontPages/LibrarianFrontPage/LibrarianFrontPage';
 import { PrivateRoute } from '@/utils/PrivateRoute'
 import { AuthProvider } from '@/context/AuthContext';
-import EvaluationsPage from '@/pages/Evaluations/EvaluationsPage';
 import Status404 from '@/pages/Status/Status404';
 import AddBookPage from '@/pages/Books/AddBookPage/AddBookPage';
 import EditBookPage from '@/pages/Books/EditBookPage/EditBookPage';
@@ -37,103 +36,129 @@ function App() {
     },
     {
       path: "/",
+      element: "",
+      requiresAuth: true,
+      roles: ["Librarian, Admin"],
+    },
+    {
+      path: "/librarian",
       element: <LibrarianFrontPage />,
       requiresAuth: true,
+      roles: ["Librarian"],
+    },
+    {
+      path: "/admin",
+      element: <AdminFrontPage />,
+      requiresAuth: true,
+      roles: ["Admin"],
     },
     {
       path: "/users",
       element: <UsersPage />,
       requiresAuth: true,
+      roles: ["Librarian", "Admin"],
     },
     {
       path: "/users/punishments",
       element: <UsersPunishmentsPage />,
       requiresAuth: true,
+      roles: ["Librarian", "Admin"],
     },
     {
       path: "/users/requests",
       element: <UsersRequestsPage />,
       requiresAuth: true,
+      roles: ["Librarian", "Admin"],
     },
     {
       path: "/requests",
       element: <RequestsPage />,
       requiresAuth: true,
+      roles: ["Librarian", "Admin"],
     },
     {
       path: "/requests/add",
       element: <AddRequestPage />,
       requiresAuth: true,
+      roles: ["Librarian", "Admin"],
     },
     {
       path: "/transfers",
       element: <TransfersPage />,
       requiresAuth: true,
+      roles: ["Librarian", "Admin"],
     },
     {
       path: "/transfers/add",
       element: <AddTransferPage />,
       requiresAuth: true,
+      roles: ["Librarian", "Admin"],
     },
     {
       path: "/authors",
       element: <AuthorsPage />,
       requiresAuth: true,
+      roles: ["Librarian", "Admin"],
     },
     {
       path: "/categories",
       element: <CategoriesPage />,
       requiresAuth: true,
+      roles: ["Librarian", "Admin"],
     },
     {
       path: "/books",
       element: <BooksPage />,
       requiresAuth: true,
+      roles: ["Librarian", "Admin"],
     },
     {
       path: "books/view",
       element: <ViewBookPage />,
       requiresAuth: true,
+      roles: ["Librarian", "Admin"],
     },
     {
       path: "books/add",
       element: <AddBookPage />,
       requiresAuth: true,
+      roles: ["Librarian", "Admin"],
     },
     {
       path: "books/edit",
       element: <EditBookPage />,
       requiresAuth: true,
+      roles: ["Librarian", "Admin"],
     },
     {
       path: "/books/physical-books",
       element: <BookCopiesPage />,
       requiresAuth: true,
-    },
-    {
-      path: "/evaluations",
-      element: <EvaluationsPage />,
-      requiresAuth: true,
+      roles: ["Librarian", "Admin"],
     },
     {
       path: "/notifications",
       element: <NotificationsPage />,
       requiresAuth: true,
+      roles: ["Librarian", "Admin"],
     },
     {
       path: "*",
       element: <Status404 />,
       requiresAuth: true,
+      roles: ["Librarian", "Admin"],
     },
     {
       path: "/profile",
       element: <ProfilePage />,
       requiresAuth: true,
+      roles: ["Librarian", "Admin"],
     },
     {
       path: "/adm",
       element: <AdminFrontPage />,
-      requiresAuth: true
+      requiresAuth: true,
+      roles: ["Admin"],
     }
   ];
 
@@ -155,7 +180,7 @@ function App() {
                       path={route.path}
                       element={
                         route.requiresAuth ? (
-                          <PrivateRoute>{route.element}</PrivateRoute>
+                          <PrivateRoute path={route.path} roles={route.roles}>{route.element}</PrivateRoute>
                         ) : (
                           route.element
                         )

@@ -99,9 +99,9 @@ const AddTransferPage = () => {
 
         const transferData = {
             endDate: endDate,
-            sourceLibraryId: selectedLibrary?.libraryId,
+            sourceLibraryId: Number(selectedLibrary?.libraryId),
             destinationLibraryId: user.LibraryId,
-            physicalBookId: selectedPhysicalBook?.physicalBookId,
+            physicalBookId: Number(selectedPhysicalBook?.physicalBookId),
         }
 
         try {

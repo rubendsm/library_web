@@ -209,11 +209,10 @@ const RequestsTableMenu: React.FC<RequestsTableMenuProps> = ({ selectedRow, anch
                 isDialogOpen={isInputDateDialogOpen}
                 onDialogClose={handleDialogClose}
                 onConfirmButton={handleConfirm}
-                inputDate={handleDateChange}
-                initialInputValue={selectedRow?.endDate} />
+                inputDate={handleDateChange} />
             <DeleteConfirmationDialog isDialogOpen={isDeleteConfirmationDialogOpen} onDialogClose={handleDialogClose} onYesButton={handleDeleteRequest} />
-             {/* Render SuccessDialog only when isSuccessDialogOpen is true */}
-             {isSuccessDialogOpen && (
+            {/* Render SuccessDialog only when isSuccessDialogOpen is true */}
+            {isSuccessDialogOpen && (
                 <SuccessDialog
                     isDialogOpen={isSuccessDialogOpen}
                     onDialogClose={handleDialogClose}

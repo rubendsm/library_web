@@ -23,4 +23,14 @@ export interface GenericBook {
         libraryAlias: string;
         count: number;
     }[];
+    evaluations: {
+        evaluationId: number;
+        evaluationDescription: string;
+        evaluationScore: number;
+        emittedDate: Date;
+        userId: number;
+        userName: string;
+    }[];
+    numberOfEvaluations: number;
+    averageEvaluationScore: number;
 }

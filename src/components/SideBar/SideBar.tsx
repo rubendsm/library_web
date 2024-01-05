@@ -23,7 +23,6 @@ import CategoryIcon from '@mui/icons-material/Category';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import ReviewsIcon from '@mui/icons-material/Reviews';
 import CssBaseline from '@mui/material/CssBaseline';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -271,7 +270,6 @@ export default function MiniDrawer() {
                                 { text: t(screenName + "drawer.requests"), to: '/requests', icon: <AssignmentIcon /> },
                                 { text: t(screenName + "drawer.transfers"), to: '/transfers', icon: <SwapHorizIcon /> },
                                 { text: t(screenName + "drawer.notifications"), to: '/notifications', icon: <NotificationsIcon /> },
-                                { text: t(screenName + "drawer.evaluations"), to: '/evaluations', icon: <ReviewsIcon /> },
                                 { text: t(screenName + "drawer.authors"), to: '/authors', icon: <PersonIcon /> },
                                 { text: t(screenName + "drawer.categories"), to: '/categories', icon: <CategoryIcon /> },
                             ].map(({ text, to, icon }, index) => (

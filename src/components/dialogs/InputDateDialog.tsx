@@ -14,21 +14,13 @@ interface InputDateDialogProps {
     onDialogClose: () => void;
     onConfirmButton: () => void;
     inputDate: (value: string) => void;
-    initialInputValue: any;
 }
 
-const InputDateDialog: React.FC<InputDateDialogProps> = ({ isDialogOpen, onDialogClose, onConfirmButton, inputDate, initialInputValue }) => {
+const InputDateDialog: React.FC<InputDateDialogProps> = ({ isDialogOpen, onDialogClose, onConfirmButton, inputDate }) => {
     const { t } = useTranslation();
     const [date, setDate] = useState('');
 
     const screenName = "components.dialogs.inputDate.";
-
-    useEffect(() => {
-        const initialDate = initialInputValue
-            ? new Date(initialInputValue).toISOString().split('T')[0]
-            : '';
-        setDate(initialDate);
-    }, [initialInputValue]);
 
     const onDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = event.target.value;

@@ -38,6 +38,15 @@ const physicalBookService = {
         }
     },
 
+    // Get all PhysicalBooks at library id and status transfer
+    getAllPhysicalBooksWithTransferStatusForLibrary: async (libraryId: number) => {
+        try {
+            return await axiosInstance.get(`/physical-book/all/transfer/library/${libraryId}`);
+        } catch (error) {
+            throw new Error(`Error getting physical books: ${error}`);
+        }
+    },
+
     // Get physical book by id
     getPhysicalBook: async (physicalBookId: number) => {
         try {
@@ -62,6 +71,15 @@ const physicalBookService = {
             return await axiosInstance.post(`/physical-book/add/${physicalBookDto.numOfBooks}`, physicalBookDto);
         } catch (error) {
             throw new Error(`Error creating physical books: ${error}`);
+        }
+    },
+
+    // Update physical book status to arrived
+    UpdatePhysicalBookStatus: async (physicalBookId: number, libraryId: number) => {
+        try {
+            return await axiosInstance.put(`/physical-book/edit/${physicalBookId}/${libraryId}`);
+        } catch (error) {
+            throw new Error(`Error updating physical book: ${error}`);
         }
     },
 
