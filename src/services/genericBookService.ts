@@ -11,6 +11,24 @@ const genericBookService = {
         }
     },
 
+    // Get all GenericBooks
+    getAllGenericBooksByAuthor: async (authorId: number) => {
+        try {
+            return await axiosInstance.get(`/generic-book/all/author/${authorId}`);
+        } catch (error) {
+            throw new Error(`Error getting generic books: ${error}`);
+        }
+    },
+
+    // Get all GenericBooks
+    getAllGenericBooksByCategory: async (categoryId: number) => {
+        try {
+            return await axiosInstance.get(`/generic-book/all/category/${categoryId}`);
+        } catch (error) {
+            throw new Error(`Error getting generic books: ${error}`);
+        }
+    },
+
     // Get GenericBook by ISBN
     getGenericBookByISBN: async (isbn: string) => {
         try {

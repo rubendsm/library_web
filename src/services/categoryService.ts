@@ -29,6 +29,14 @@ const categoryService = {
         }
     },
 
+    deleteCategory: async (categoryId: number) => {
+        try {
+            return await axiosInstance.delete(`/category/delete/${categoryId}`);
+        } catch (error) {
+            throw new Error(`Error deleting category: ${error}`);
+        }
+    }
+
 };
 
 export default categoryService;

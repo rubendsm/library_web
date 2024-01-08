@@ -25,6 +25,7 @@ import UsersRequestsPage from '@/pages/Users/UsersRequestsPage';
 import NotificationsPage from '@/pages/Notifications/NotificationsPage';
 import ProfilePage from './pages/Profile/ProfilePage';
 import AdminFrontPage from './pages/FrontPages/AdminFrontPage/AdminFrontPage';
+import LanguagesPage from './pages/Languages/LanguagesPage';
 
 function App() {
 
@@ -159,7 +160,13 @@ function App() {
       element: <AdminFrontPage />,
       requiresAuth: true,
       roles: ["Admin"],
-    }
+    },
+    {
+      path: "/languages",
+      element: <LanguagesPage />,
+      requiresAuth: true,
+      roles: ["Librarian", "Admin"],
+    },
   ];
 
 

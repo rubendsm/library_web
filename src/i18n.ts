@@ -44,6 +44,10 @@ i18n
                                 evaluations: "Evaluations",
                                 authors: "Authors",
                                 categories: "Categories"
+                            },
+                            language: {
+                                portuguese: "Portuguese",
+                                english: "English"
                             }
                         },
                         table: {
@@ -96,7 +100,8 @@ i18n
                                 datePublished: "Publication Date",
                                 language: "Language",
                                 authors: "Author(s)",
-                                copies: "Copies"
+                                copies: "Copies",
+                                categories: "Category(ies)"
                             },
                             physicalBooks: {
                                 physicalBookID: "ID",
@@ -121,21 +126,26 @@ i18n
                                 endDate: "End Date",
                                 forAll: "For All",
                                 libraryID: "Library ID"
+                            },
+                            languages: {
+                                languageId: "ID",
+                                languageName: "Name",
+                                languageAlias: "Alias"
                             }
                         },
                         menus: {
                             authors: {
                                 1: "Edit",
-                                2: "Show books (not implemented)",
-                                3: "Delete (not implemented)",
+                                2: "Show books",
+                                3: "Delete",
                                 inputNameDialog: {
                                     title: "Edit Author"
                                 }
                             },
                             categories: {
                                 1: "Edit",
-                                2: "Show books (not implemented)",
-                                3: "Delete (not implemented)"
+                                2: "Show books",
+                                3: "Delete"
                             },
                             genericBooks: {
                                 1: "View book",
@@ -190,12 +200,29 @@ i18n
                             },
                             failure: {
                                 title: "Failure",
-                                author: "an error occurred while adding authors",
-                                category: "an error occurred while adding categories",
-                                error_500: "Internal server error",
-                                error_400: "Error 400",
+                                author: {
+                                    create: "An error occurred while creating author",
+                                    delete: "It's not possible to delete this author because it possesses books"
+                                },
+                                category: {
+                                    create: "There's already a category with the same name",
+                                    delete: "This category can't be deleted due to being part of some books",
+                                    edit: "Its not possible to edit this category"
+                                },
+                                error: {
+                                    500: "Internal server error",
+                                    400: "Error 400"
+                                },
                                 generic_book: "an error occurred while adding generic books",
-                                password: "the password inputted isn't the current one",
+                                password: {
+                                    1: "The inputted value of \"Confirm Password\" isn't the same one as in \"New Password\"",
+                                    2: "The password inputted isn't the current one",
+                                    3: "The user doesn't have permission to change its password"
+                                },
+                                language: {
+                                    400: "The user has made an input incorrectly",
+                                    500: "An error has occured on the server's side"
+                                },
                                 requests: {
                                     delete: "can not delete this request",
                                     cancel: "an error occurred while cancel this request",
@@ -205,24 +232,24 @@ i18n
                                     create: "an error occurred while created a request"
                                 },
                                 transfer: {
-                                    delete: "can not delete this transfer",
-                                    cancel: "an error occurred while cancel this transfer",
-                                    accepted: "can not accept this transfer",
-                                    reject: "an error occurred while rejecting this transfer",
-                                    create: "an error occurred while created a transfer"
+                                    delete: "An not delete this transfer",
+                                    cancel: "An error occurred while cancel this transfer",
+                                    accepted: "Can not accept this transfer",
+                                    reject: "An error occurred while rejecting this transfer",
+                                    create: "An error occurred while created a transfer"
                                 },
                                 punishment: {
-                                    delete: "can not delete this punishment"
+                                    delete: "Can not delete this punishment"
                                 },
                                 book: {
-                                    create: "can not create a new book"
+                                    create: "Can not create a new book"
                                 },
                                 profile: {
                                     wrong_password: "Your current password is wrong"
                                 },
                                 library: {
-                                    create: "can not create a new library",
-                                    exists: "this library already exists"
+                                    create: "Can not create a new library",
+                                    exists: "This library already exists"
                                 },
                                 physicalBooks: {
                                     arrived: "Can not change status to arrived",
@@ -246,10 +273,18 @@ i18n
                             },
                             success: {
                                 title: "Success!",
-                                author: "new author created successfully",
-                                category: "new category created successfully",
-                                generic_book: "new book added",
-                                password: "the password was changed successfully",
+                                author: {
+                                    create: "New author created successfully",
+                                    delete: "Author has been deleted"
+                                },
+                                category: {
+                                    create: "New category created successfully",
+                                    delete: "Category successfully deleted",
+                                    edit: "Category edited successfully"
+                                },
+                                generic_book: "New book added",
+                                password: "The password was changed successfully",
+                                language: "The language has been added successfully",
                                 requests: {
                                     delete: "Delete successfully",
                                     cancel: "Cancel request successfully",
@@ -286,9 +321,19 @@ i18n
                                 title: "Update Password",
                                 currentPassword: "Current Password",
                                 newPassword: "New Password",
+                                confirmNewPassword: "Confirm New Password",
                                 actions: {
                                     1: "Close",
                                     2: "Update"
+                                }
+                            },
+                            addLanguage: {
+                                title: "Add Language",
+                                languageName: "Name",
+                                languageAlias: "Alias",
+                                actions: {
+                                    1: "Close",
+                                    2: "Add"
                                 }
                             }
                         }
@@ -341,7 +386,7 @@ i18n
                             title: "Books",
                             createButton: "Create Book",
                             query: {
-                                label: "Search for Book (ISBN or Title)",
+                                label: "Search for Book (ISBN, Title, Author or Category)",
                                 error: "No Books"
                             },
                             viewPage: {
@@ -563,6 +608,14 @@ i18n
                                 }
                             }
                         },
+                        LanguagesPage: {
+                            title: "Languages",
+                            addButton: "Add Language",
+                            query: {
+                                label: "Search for Language (ID, Name, Alias)",
+                                error: "No Languages"
+                            },
+                        }
                     }
                 }
             },
@@ -598,6 +651,10 @@ i18n
                                 evaluations: "Avaliações",
                                 authors: "Autores",
                                 categories: "Categorias"
+                            },
+                            language: {
+                                portuguese: "Português",
+                                english: "Inglês"
                             }
                         },
                         table: {
@@ -650,7 +707,8 @@ i18n
                                 datePublished: "Data de Publicação",
                                 language: "Idioma",
                                 authors: "Autor(es)",
-                                copies: "Copias"
+                                copies: "Cópias",
+                                categories: "Categoria(s)"
                             },
                             physicalBooks: {
                                 physicalBookID: "ID do Livro Físico",
@@ -675,21 +733,26 @@ i18n
                                 endDate: "Data de Fim",
                                 forAll: "Para Todos",
                                 libraryID: "ID da Biblioteca"
+                            },
+                            languages: {
+                                languageId: "ID",
+                                languageName: "Nome",
+                                languageAlias: "Alias"
                             }
                         },
                         menus: {
                             authors: {
                                 1: "Editar",
-                                2: "Ver livros (não implementado)",
-                                3: "Eliminar (não implementado)",
+                                2: "Ver livros",
+                                3: "Eliminar",
                                 inputNameDialog: {
                                     title: "Editar Autor"
                                 }
                             },
                             categories: {
                                 1: "Editar",
-                                2: "Ver livros (não implementado)",
-                                3: "Eliminar (não implementado)"
+                                2: "Ver livros",
+                                3: "Eliminar"
                             },
                             genericBooks: {
                                 1: "Ver livro",
@@ -744,12 +807,29 @@ i18n
                             },
                             failure: {
                                 title: "Falha",
-                                author: "ocorreu um erro ao adicionar autores",
-                                category: "ocorreu um erro ao adicionar categorias",
-                                error_500: "Erro interno do servidor",
-                                error_400: "já existe",
+                                author: {
+                                    create: "Um erro ocorreu ao criar o autor",
+                                    delete: "Não é possível apagar este autor uma vez que existem livros em nome dele"
+                                },
+                                category: {
+                                    create: "Já existe uma categoria com o nome introduzido",
+                                    delete: "Esta categoria não pode ser eliminada pois pertence a livros",
+                                    edit: "Não é possível editar a categoria para o nome introduzido"
+                                },
+                                error: {
+                                    500: "Internal server error",
+                                    400: "Error 400"
+                                },
                                 generic_book: "ocorreu um erro ao adicionar livros genéricos",
-                                password: "a palavra-passe inserida não é a atual",
+                                password: {
+                                    1: "O valor introduzido em \"Confirmar palavra-passe\" não é o mesmo que em \"Nova palavra-passe\"",
+                                    2: "A palavra-passe inserida em \"Palavra-passe atual\" não está correta",
+                                    3: "O utilizador não têm permissão para alterar a palavra-passe"
+                                },
+                                language: {
+                                    400: "O Utilizador introduziu algo errado",
+                                    500: "Houve um erro do lado do Servidor"
+                                },
                                 requests: {
                                     delete: "não é possível eliminar este pedido",
                                     cancel: "ocorreu um erro ao cancelar este pedido",
@@ -800,10 +880,18 @@ i18n
                             },
                             success: {
                                 title: "Sucesso!",
-                                author: "novo autor criado com sucesso",
-                                category: "nova categoria criada com sucesso",
+                                author: {
+                                    create: "Novo autor criado com sucesso",
+                                    delete: "Autor foi eliminado"
+                                },
+                                category: {
+                                    create: "Nova categoria criada com sucesso",
+                                    delete: "Categoria eliminada com sucesso",
+                                    edit: "Categoria editada com sucesso"
+                                },
                                 generic_book: "novo livro adicionado",
                                 password: "a palavra-passe foi alterada com sucesso",
+                                language: "O idioma foi introduzido com sucesso",
                                 requests: {
                                     delete: "Eliminação bem-sucedida",
                                     cancel: "Pedido cancelado com sucesso",
@@ -840,9 +928,19 @@ i18n
                                 title: "Alterar palavra-passe",
                                 currentPassword: "Palavra-passe atual",
                                 newPassword: "Nova palavra-passe",
+                                confirmNewPassword: "Confirmar nova palavra-passe",
                                 actions: {
                                     1: "Fechar",
                                     2: "Confirmar"
+                                }
+                            },
+                            addLanguage: {
+                                title: "Adicionar Idioma",
+                                languageName: "Nome",
+                                languageAlias: "Alias",
+                                actions: {
+                                    1: "Fechar",
+                                    2: "Adicionar"
                                 }
                             }
                         }
@@ -895,7 +993,7 @@ i18n
                             title: "Livros",
                             createButton: "Criar Livro",
                             query: {
-                                label: "Procurar por Livro (ISBN ou Título)",
+                                label: "Procurar por Livro (ISBN, Título, Autor ou Categoria)",
                                 error: "Sem Livros"
                             },
                             viewPage: {
@@ -1117,6 +1215,14 @@ i18n
                                 }
                             }
                         },
+                        LanguagesPage: {
+                            title: "Idiomas",
+                            addButton: "Adicionar Idioma",
+                            query: {
+                                label: "Procurar por Idioma (ID, Nome, Alias)",
+                                error: "Sem Idiomas"
+                            },
+                        }
                     }
                 }
             }

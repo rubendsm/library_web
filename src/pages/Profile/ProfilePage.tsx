@@ -6,7 +6,7 @@ import { UpdatePasswordDTO } from "@/models/User";
 import libraryService from "@/services/libraryService";
 import userService from "@/services/userService";
 import { Button, Divider, Grid, Typography } from "@mui/material";
-import { jwtDecode } from "jwt-decode";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
@@ -19,17 +19,18 @@ const ProfilePage = () => {
     const [isPasswordDialogOpen, setPasswordDialogOpen] = useState(false);
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
+    const [confirmNewPassword, setConfirmNewPassword] = useState("");
     const [isSuccessDialogOpen, setSuccessDialogOpen] = useState(false);
     const [isFailureDialogOpen, setFailureDialogOpen] = useState(false);
     const [update, setUpdate] = useState(false);
     const [libraryAlias, setLibraryAlias] = useState("");
-
+    const [msg_failure, setFailureMessage] = useState("message");
 
     const { user } = useAuth();
 
     const screenName = "pages.ProfilePage.";
-    const msg_failure = "components.dialogs.failure.password";
-    const msg_success = "components.dialogs.sucesss.password";
+    const msg_failure_base = "components.dialogs.failure.password.";
+    const msg_success = "components.dialogs.sucess.password";
 
     useEffect(() => {
         setIsLoading(true);
@@ -73,8 +74,19 @@ const ProfilePage = () => {
         return value;
     }
 
+    const handleConfirmNewPasswordChange = (value: string) => {
+        setConfirmNewPassword(value);
+        return value;
+    }
+
     const handleConfirm = async () => {
         setPasswordDialogOpen(false);
+
+        if (newPassword !== confirmNewPassword) {
+            setFailureMessage(msg_failure_base + "1");
+            setFailureDialogOpen(true);
+            return;
+        }
 
         const updateData: UpdatePasswordDTO = {
             oldPassword: currentPassword,
@@ -82,15 +94,29 @@ const ProfilePage = () => {
         }
 
         try {
-            const response = await userService.updateUserPassword(user.LibraryId, updateData);
+            const response = await userService.updateUserPassword(user.Id, updateData);
 
             if (response.status === 201) {
                 setSuccessDialogOpen(true);
             } else {
+                
                 setFailureDialogOpen(true);
             }
 
         } catch (error) {
+            const status = error.message.slice(-3);
+            console.log("Status: " + status)
+            switch (status) {
+                case "400":
+                    setFailureMessage(msg_failure_base + "2");
+                    break;
+                case "401":
+                    setFailureMessage(msg_failure_base + "3");
+                    break;
+                default:
+                    setFailureMessage(msg_failure_base + "3");
+                    break;
+            }
             setFailureDialogOpen(true);
         }
     }
@@ -150,6 +176,7 @@ const ProfilePage = () => {
                 onConfirmButton={handleConfirm}
                 currentPasswordChange={handleCurrentPasswordChange}
                 newPasswordChange={handleNewPasswordChange}
+                confirmNewPasswordChange={handleConfirmNewPasswordChange}
             />
 
             {/* Render SuccessDialog only when isSuccessDialogOpen is true */}

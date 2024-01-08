@@ -1,5 +1,5 @@
 import Book from '@mui/icons-material/Book';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, Divider, TextField, Typography } from "@mui/material";
 import { GenericBook } from "@/models/GenericBook";
 import { useEffect, useState } from "react";
@@ -13,11 +13,15 @@ const BooksPage = () => {
     const { t } = useTranslation();
     const [data, setData] = useState<GenericBook[]>([]);
     const [filteredData, setFilteredData] = useState<GenericBook[]>([]);
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchParams] = useSearchParams();
+    const [searchQuery, setSearchQuery] = useState(() => {
+        const paramsQuery = searchParams.get("query");
+        if (paramsQuery === null) { return ""; }
+        return paramsQuery;
+    });
     const [isLoading, setIsLoading] = useState(false);
     const [update, setUpdate] = useState(false);
     const [error, setError] = useState(false);
-
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -47,10 +51,36 @@ const BooksPage = () => {
         if (Array.isArray(data)) {
             const filteredBooks = data.filter(genericBook =>
                 genericBook.isbn.includes(searchQuery) ||
-                genericBook.title.toLowerCase().includes(searchQuery.toLowerCase()));
+                genericBook.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                genericBookContainsAuthor(genericBook, searchQuery) ||
+                genericBookContainsCategory(genericBook, searchQuery));
             setFilteredData(filteredBooks);
         }
-    }, [searchQuery]);
+    }, [searchQuery, data, searchParams]);
+
+    const genericBookContainsAuthor = (genericBook: { authors: 
+            { authorId: number, authorName: string; }[]; }, authorName: string) => {
+        let found: boolean = false;
+        genericBook.authors.forEach((author) => {
+            if (author.authorName.includes(authorName)) {
+                found = true;
+                return;
+            }
+        });
+        return found;
+    }
+
+    const genericBookContainsCategory = (genericBook: { categories: 
+            { categoryId: number, categoryName: string; }[]; }, categoryName: string) => {
+        let found: boolean = false;
+        genericBook.categories.forEach((category) => {
+            if (category.categoryName.includes(categoryName)) {
+                found = true;
+                return;
+            }
+        });
+        return found;
+    }
 
     const handleAddButton = () => {
         navigate('add');

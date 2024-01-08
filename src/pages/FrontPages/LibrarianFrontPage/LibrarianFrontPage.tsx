@@ -121,9 +121,6 @@ function LibrarianFrontPage() {
 
     return (
         <>
-            <Button>
-                <Link to="/adm">Admin</Link>
-            </Button>
             <h1>{t(screenName + ".header.greeting")}, {user.Name}</h1>
             <p>{date}</p>
             {/*<h1>{t(screenName + ".header.library")} {libraryName}, ID {user.LibraryId}</h1>*/}

@@ -33,6 +33,7 @@ import { useEffect } from 'react';
 import libraryService from '@/services/libraryService';
 import { useTranslation } from 'react-i18next';
 import LanguageIcon from '@mui/icons-material/Language';
+import TranslateIcon from "@mui/icons-material/Translate";
 
 const drawerWidth = 240;
 
@@ -247,10 +248,10 @@ export default function MiniDrawer() {
                                 onClose={handleLanguageMenuClose}
                             >
                                 <MenuItem onClick={() => handleLanguageChange('en')}>
-                                    {t('English')}
+                                    {t(screenName + 'language.english')}
                                 </MenuItem>
                                 <MenuItem onClick={() => handleLanguageChange('pt')}>
-                                    {t('Portuguese')}
+                                    {t(screenName + 'language.portuguese')}
                                 </MenuItem>
                             </Menu>
                         </Toolbar>
@@ -272,6 +273,7 @@ export default function MiniDrawer() {
                                 { text: t(screenName + "drawer.notifications"), to: '/notifications', icon: <NotificationsIcon /> },
                                 { text: t(screenName + "drawer.authors"), to: '/authors', icon: <PersonIcon /> },
                                 { text: t(screenName + "drawer.categories"), to: '/categories', icon: <CategoryIcon /> },
+                                { text: t(screenName + "drawer.languages"), to: '/languages', icon: <TranslateIcon /> },
                             ].map(({ text, to, icon }, index) => (
                                 <ListItem key={text} disablePadding sx={{ display: 'block' }}>
                                     <ListItemButton

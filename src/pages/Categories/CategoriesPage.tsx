@@ -21,8 +21,8 @@ const CategoriesPage = () => {
     const [isInputNameDialogOpen, setInputNameDialogOpen] = useState(false);
     const [categoryName, setCategoryName] = useState('');
     const [error, setError] = useState(null);
-    const [msg_success, setMsgSucess] = useState("components.dialogs.success.category");
-    const [msg_failure, setMsgFailure] = useState("components.dialogs.failure.category");
+    const msg_success = "components.dialogs.success.category.create";
+    const [msg_failure, setMsgFailure] = useState("components.dialogs.failure.category.create");
 
     const screenName = "pages.CategoriesPage.";
 
@@ -58,7 +58,7 @@ const CategoriesPage = () => {
             );
             setfilteredData(filteredCategories);
         }
-    }, [searchQuery, filteredData]);
+    }, [searchQuery, filteredData, data]);
 
     const handleAddClick = () => {
         setInputNameDialogOpen(true);
@@ -72,6 +72,8 @@ const CategoriesPage = () => {
     const handleConfirm = async () => {
         setInputNameDialogOpen(false);
 
+        setMsgFailure("components.dialogs.failure.category.create");
+
         const categoryData = {
             categoryId: 0,
             categoryName: categoryName,
@@ -82,13 +84,11 @@ const CategoriesPage = () => {
 
             if (response.status === 201) {
                 setSuccessDialogOpen(true);
-            } else if (response.status === 400) {
-                setMsgFailure("components.dialogs.failure.error_400");
-                setFailureDialogOpen(true);
-            } else if (response.status === 500) {
-                setMsgFailure("components.dialogs.failure.error_500");
+            } else if (response.status === (400 | 500)) {
+                setMsgFailure("components.dialogs.failure.error." + response.status);
                 setFailureDialogOpen(true);
             } else {
+                setMsgFailure("An unknown error has occurred")
                 setFailureDialogOpen(true);
             }
 

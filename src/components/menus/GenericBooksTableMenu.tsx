@@ -19,8 +19,8 @@ const GenericBooksTableMenu: React.FC<GenericBooksTableMenuProps> = ({ selectedR
     const [isFailureDialogOpen, setFailureDialogOpen] = useState(false);
 
     const screenName = "components.menus.genericBooks.";
-    var msg_success = "components.dialigs.success.generic_book";
-    var msg_failure = "components.dialigs.failure.generic_book"
+    const msg_success = "components.dialogs.success.generic_book";
+    const msg_failure = "components.dialogs.failure.generic_book"
 
     const navigate = useNavigate();
 

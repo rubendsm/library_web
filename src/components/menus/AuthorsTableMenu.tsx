@@ -9,7 +9,6 @@ import { useState } from "react";
 import authorService from "@/services/authorService";
 import { useTranslation } from "react-i18next";
 
-
 interface AuthorsTableMenuProps {
     selectedRow: Author;
     anchorEl: HTMLElement | null;
@@ -22,10 +21,12 @@ const AuthorsTableMenu: React.FC<AuthorsTableMenuProps> = ({ selectedRow, anchor
     const [isFailureDialogOpen, setFailureDialogOpen] = useState(false);
     const [isInputNameDialogOpen, setInputNameDialogOpen] = useState(false);
     const [authorName, setAuthorName] = useState('');
-
+    const [msg_success, setMsgSuccess] = useState("");
+    const [msg_failure, setMsgFailure] = useState("");
+    
     const screenName = "components.menus.authors.";
-    var msg_failure = "components.dialogs.failure.author";
-    var msg_success = "components.dialogs.sucesss.author";
+    const base_success_dialog = "components.dialogs.success.author.";
+    const base_failure_dialog = "components.dialogs.failure.author.";
 
     const navigate = useNavigate();
 
@@ -34,11 +35,20 @@ const AuthorsTableMenu: React.FC<AuthorsTableMenuProps> = ({ selectedRow, anchor
     }
 
     const handleShowBooksClick = () => {
-        //navigate(`/authors/books?authorId=${selectedRow.authorId}`);
+        navigate(`/books?query=${selectedRow.authorName}`);
     };
 
-    const handleDeleteClick = () => {
-
+    const handleDeleteClick = async () => {
+        try {
+            setMsgSuccess(base_success_dialog + "delete");
+            setMsgFailure(base_failure_dialog + "delete");
+            const response = await authorService.deleteAuthor(selectedRow.authorId);
+            if (response.status === 204) {
+                setSuccessDialogOpen(true);
+            }
+        } catch (error) {
+            setFailureDialogOpen(true);
+        }
     };
 
     const handleNameChange = (value: string) => {
@@ -48,6 +58,9 @@ const AuthorsTableMenu: React.FC<AuthorsTableMenuProps> = ({ selectedRow, anchor
 
     const handleConfirm = async () => {
         handleDialogClose();
+        
+        setMsgSuccess(base_success_dialog + "create");
+        setMsgFailure(base_failure_dialog + "create");
 
         const authorData = {
             authorId: selectedRow.authorId,

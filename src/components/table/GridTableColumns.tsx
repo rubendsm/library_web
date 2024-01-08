@@ -19,6 +19,7 @@ interface RowType {
   isbn: string;
   physicalBookId: number;
   notificationId: number;
+  languageId: number;
   // Add other properties based on your actual data structure
 }
 
@@ -132,9 +133,10 @@ export const getColumns = <T extends RowType>(columnName: string, onMenuOpen: (e
         { field: 'isbn', headerName: t(screenName + "genericBooks.isbn"), flex: 1, align: 'center', headerAlign: 'center', headerClassName: 'header' },
         { field: 'title', headerName: t(screenName + "genericBooks.title"), flex: 3, align: 'center', headerAlign: 'center', headerClassName: 'header' },
         { field: 'pageNumber', headerName: t(screenName + "genericBooks.pageNumber"), flex: 1, align: 'center', headerAlign: 'center', headerClassName: 'header' },
-        { field: 'datePublished', headerName: t(screenName + "genericBooks.datePublished"), flex: 2, align: 'center', headerAlign: 'center', headerClassName: 'header' },
+        { field: 'datePublished', headerName: t(screenName + "genericBooks.datePublished"), flex: 1, align: 'center', headerAlign: 'center', headerClassName: 'header' },
         { field: 'language', headerName: t(screenName + "genericBooks.language"), flex: 1, align: 'center', headerAlign: 'center', headerClassName: 'header', renderCell: (params) => params.row.language?.languageAlias || 'N/A', },
         { field: 'authors', headerName: t(screenName + "genericBooks.authors"), flex: 2, align: 'center', headerAlign: 'center', headerClassName: 'header', renderCell: (params) => (params.row.authors && params.row.authors.length > 0) ? params.row.authors.map((author: any) => author.authorName).join(', ') : 'N/A', },
+        { field: 'categories', headerName: t(screenName + "genericBooks.categories"), flex: 1, align: 'center', headerAlign: 'center', headerClassName: 'header', renderCell: (params) => (params.row.categories && params.row.categories.length > 0) ? params.row.categories.map((category: any) => category.categoryName).join(', ') : 'N/A', },
         {
           field: 'count', headerName: t(screenName + "genericBooks.copies"), flex: 1, align: 'center', headerAlign: 'center', headerClassName: 'header',
           valueGetter: (params) => {
@@ -183,6 +185,12 @@ export const getColumns = <T extends RowType>(columnName: string, onMenuOpen: (e
           ),
         }
       ]
+    case 'languages':
+      return [
+        { field: 'languageId', headerName: t(screenName + "languages.languageId"), flex: 1, align: 'center', headerAlign: 'center', headerClassName: 'header' },
+        { field: 'languageName', headerName: t(screenName + "languages.languageName"), flex: 3, align: 'center', headerAlign: 'center', headerClassName: 'header' },
+        { field: 'languageAlias', headerName: t(screenName + "languages.languageAlias"), flex: 1, align: 'center', headerAlign: 'center', headerClassName: 'header' },
+      ]
     // Add more cases as needed
 
     default:
@@ -192,24 +200,26 @@ export const getColumns = <T extends RowType>(columnName: string, onMenuOpen: (e
 
 export const getRowId = (columnName: string): (row: RowType) => string => {
   switch (columnName) {
-    case 'requests':
+    case "requests":
       return (row: RowType) => row.requestId.toString();
-    case 'transfers':
+    case "transfers":
       return (row: RowType) => row.transferId.toString();
-    case 'users':
+    case "users":
       return (row: RowType) => row.userId.toString();
-    case 'punishments':
+    case "punishments":
       return (row: RowType) => row.punishmentId.toString();
-    case 'authors':
+    case "authors":
       return (row: RowType) => row.authorId.toString();
-    case 'categories':
+    case "categories":
       return (row: RowType) => row.categoryId.toString();
-    case 'genericBooks':
+    case "genericBooks":
       return (row: RowType) => row.isbn.toString();
-    case 'physicalBooks':
+    case "physicalBooks":
       return (row: RowType) => row.physicalBookId.toString();
-    case 'notifications':
+    case "notifications":
       return (row: RowType) => row.notificationId.toString();
+    case "languages":
+      return (row: RowType) => row.languageId.toString();
     default:
       // Return a default function or handle the case where the columnName is not recognized
       return (row: RowType) => row.defaultId?.toString();

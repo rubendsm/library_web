@@ -9,25 +9,28 @@ import {
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-interface InputNameDialogProps {
+interface ChangePasswordDialogProps {
     title: string;
     isDialogOpen: boolean;
     onDialogClose: () => void;
     onConfirmButton: () => void;
     currentPasswordChange: (value: string) => void;
     newPasswordChange: (value: string) => void;
+    confirmNewPasswordChange: (value: string) => void;
 }
 
-const UpdatePasswordDialog: React.FC<InputNameDialogProps> = ({
+const UpdatePasswordDialog: React.FC<ChangePasswordDialogProps> = ({
     isDialogOpen,
     onDialogClose,
     onConfirmButton,
     currentPasswordChange: currentPasswordChange,
-    newPasswordChange: newPasswordChange
+    newPasswordChange: newPasswordChange,
+    confirmNewPasswordChange: confirmNewPasswordChange
 }) => {
     const { t } = useTranslation();
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState("");
+    const [confirmNewPassword, setConfirmNewPassword] = useState("");
 
     const screenName = "components.dialogs.updatePassword.";
 
@@ -43,9 +46,16 @@ const UpdatePasswordDialog: React.FC<InputNameDialogProps> = ({
         newPasswordChange(newValue);
     };
 
+    const onConfirmNewPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = event.target.value;
+        setConfirmNewPassword(newValue);
+        confirmNewPasswordChange(newValue);
+    };
+
     const resetParams = () => {
         setCurrentPassword("");
         setNewPassword("");
+        setConfirmNewPassword("");
     };
 
     return (
@@ -80,6 +90,16 @@ const UpdatePasswordDialog: React.FC<InputNameDialogProps> = ({
                         type="password"
                         value={newPassword}
                         onChange={onNewPasswordChange}
+                        sx={{ mt: 2 }} />
+                </DialogContent>
+                <DialogContent>
+                    <TextField
+                        fullWidth
+                        id="confirmNew"
+                        label={t(screenName + "confirmNewPassword")}
+                        type="password"
+                        value={confirmNewPassword}
+                        onChange={onConfirmNewPasswordChange}
                         sx={{ mt: 2 }} />
                 </DialogContent>
                 <DialogActions style={{ justifyContent: 'center' }}>

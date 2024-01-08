@@ -26,6 +26,7 @@ import { GenericBook } from '@/models/GenericBook';
 import GenericBooksTableMenu from '@/components/menus/GenericBooksTableMenu';
 import { useTranslation } from 'react-i18next';
 import PhysicalBooksTableMenu from '../menus/PhysicalBooksTableMenu';
+import LanguagesTableMenu from '../menus/LanguagesTableMenu';
 
 interface GridTableProps {
     rows: [];
@@ -46,6 +47,7 @@ const GridTable = ({ rows, columnName, onMenuClose }: GridTableProps) => {
     const [genericBooksMenuAnchor, setGenericBooksMenuAnchor] = useState<null | HTMLElement>(null);
     const [physicalBooksMenuAnchor, setPhysicalBooksMenuAnchor] = useState<null | HTMLElement>(null);
     const [notificationsMenuAnchor, setNotificationsMenuAnchor] = useState<null | HTMLElement>(null);
+    const [languagesMenuAnchor, setLanguagesMenuAnchor] = useState<null | HTMLElement>(null);
     const [selectedRow, setSelectedRow] = useState<any>();
 
     const [isSuccessDialogOpen, setSuccessDialogOpen] = useState(false);
@@ -92,6 +94,10 @@ const GridTable = ({ rows, columnName, onMenuClose }: GridTableProps) => {
         setNotificationsMenuAnchor(event.currentTarget);
         setSelectedRow(row);
     }
+    const handleOnLanguagesMenuOpen = (event: React.MouseEvent<HTMLButtonElement>, row: any) => {
+        setLanguagesMenuAnchor(event.currentTarget);
+        setSelectedRow(row);
+    }
 
 
     const deletePunishment = async () => {
@@ -125,6 +131,7 @@ const GridTable = ({ rows, columnName, onMenuClose }: GridTableProps) => {
         setGenericBooksMenuAnchor(null);
         setPhysicalBooksMenuAnchor(null);
         setNotificationsMenuAnchor(null);
+        setLanguagesMenuAnchor(null);
     };
 
     const handlers: Handlers = {
@@ -136,7 +143,8 @@ const GridTable = ({ rows, columnName, onMenuClose }: GridTableProps) => {
         categories: handleOnCategoriesMenuOpen,
         genericBooks: handleOnGenericBooksMenuOpen,
         physicalBooks: handleOnPhysicalBooksMenuOpen,
-        notifications: handleOnNotificationsMenuOpen
+        notifications: handleOnNotificationsMenuOpen,
+        languages: handleOnLanguagesMenuOpen
     };
 
     return (
@@ -183,6 +191,7 @@ const GridTable = ({ rows, columnName, onMenuClose }: GridTableProps) => {
             {columnName === 'categories' && <CategoriesTableMenu selectedRow={selectedRow} anchorEl={categoriesMenuAnchor} onClose={() => { handleMenuClose(); onMenuClose(); }} />}
             {columnName === 'genericBooks' && <GenericBooksTableMenu selectedRow={selectedRow} anchorEl={genericBooksMenuAnchor} onClose={() => { handleMenuClose(); onMenuClose(); }} />}
             {columnName === 'physicalBooks' && <PhysicalBooksTableMenu selectedRow={selectedRow} anchorEl={physicalBooksMenuAnchor} onClose={() => { handleMenuClose(); onMenuClose(); }} />}
+            {columnName === 'languages' && <LanguagesTableMenu selectedRow={selectedRow} anchorEl={languagesMenuAnchor} onClose={() => { handleMenuClose(); onMenuClose(); }} />}
 
             {/* Render SuccessDialog only when isSuccessDialogOpen is true */}
             {isSuccessDialogOpen && (
