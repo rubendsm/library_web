@@ -53,7 +53,7 @@ function AdminFrontPage() {
                                     <ListItem key={library.libraryId}>
                                         <ListItemText
                                             primary={library.libraryName}
-                                            secondary={`${t(screenName + ".dashboard.alias")}: ${library.libraryAlias}, ${t(screenName + ".address")}: ${library.libraryAddress}`}
+                                            secondary={`${t(screenName + ".dashboard.alias")}: ${library.libraryAlias}, ${t(screenName + ".dashboard.address")}: ${library.libraryAddress}`}
                                         />
                                     </ListItem>
                                 ))}
