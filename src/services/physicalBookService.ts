@@ -75,9 +75,9 @@ const physicalBookService = {
     },
 
     // Update physical book status to arrived
-    UpdatePhysicalBookStatus: async (physicalBookId: number, libraryId: number) => {
+    updatePhysicalBookStatus: async (physicalBookId: number, libraryId: number) => {
         try {
-            return await axiosInstance.put(`/physical-book/edit/${physicalBookId}/${libraryId}`);
+            return await axiosInstance.put(`/physical-book/edit/status/${physicalBookId}/${libraryId}`);
         } catch (error) {
             throw new Error(`Error updating physical book: ${error}`);
         }

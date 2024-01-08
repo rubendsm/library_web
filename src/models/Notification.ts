@@ -7,3 +7,10 @@ export interface Notification {
     forAll: boolean;
     libraryId: number;
 }
+
+export interface NotificationDTO {
+    notificationTitle: string;
+    notificationDescription: string;
+    endDate: Date;
+    libraryId: number;
+}

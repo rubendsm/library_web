@@ -1,5 +1,5 @@
 import axiosInstance from './apiConfig';
-import { Notification } from '@/models/Notification';
+import { NotificationDTO } from '@/models/Notification';
 
 const notificationService = {
     // Get all Notifications
@@ -10,6 +10,16 @@ const notificationService = {
             throw new Error(`Error getting notifications: ${error}`);
         }
     },
+
+    // Create Notification
+    createNotification: async (notification: NotificationDTO) => {
+        try {
+            return await axiosInstance.post('/notification/add', notification);
+        } catch (error) {
+            throw new Error(`Error creating notification: ${error}`);
+        }
+    },
+
 }
 
 export default notificationService;

@@ -8,6 +8,7 @@ import InputNameDialog from '@/components/dialogs/InputNameDialog';
 import FailureDialog from '@/components/dialogs/FailureDialog';
 import SuccessDialog from '@/components/dialogs/SuccessDialog';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/context/AuthContext';
 
 const AuthorsPage = () => {
     const { t } = useTranslation();
@@ -21,6 +22,8 @@ const AuthorsPage = () => {
     const [isInputNameDialogOpen, setInputNameDialogOpen] = useState(false);
     const [authorName, setAuthorName] = useState('');
     const [error, setError] = useState(null);
+
+    const { user } = useAuth();
 
     const screenName = "pages.AuthorsPage.";
     var msg_failure = "components.dialogs.failure.author";
@@ -46,7 +49,7 @@ const AuthorsPage = () => {
         fetchData();
         setUpdate(false);
         setIsLoading(false);
-    }, [update]);
+    }, [update, user]);
 
     useEffect(() => {
         // Filter data based on the search query
@@ -106,10 +109,10 @@ const AuthorsPage = () => {
         <div>
             <Typography variant="h3" style={{ justifyContent: 'center', marginBottom: '20px' }} >
                 <Person sx={{ color: 'black', width: '75px', height: '75px' }} />
-                { t(screenName + "title") }
+                {t(screenName + "title")}
             </Typography>
             <Button variant="contained" color='secondary' onClick={handleAddClick}>
-                { t(screenName + "addAuthor") }
+                {t(screenName + "addAuthor")}
             </Button>
             <Divider sx={{ my: 2 }} />
             {isLoading ? (
@@ -122,7 +125,7 @@ const AuthorsPage = () => {
                                 id='searchQuery'
                                 name='searchQuery'
                                 sx={{ mt: 2, width: '25%' }}
-                                label={ t(screenName + "query.label") }
+                                label={t(screenName + "query.label")}
                                 variant="outlined"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)} />
@@ -130,22 +133,22 @@ const AuthorsPage = () => {
                         </>
                     ) : (
                         <>
-                            {!error && <h2>{ t(screenName + "query.error") }</h2>}
+                            {!error && <h2>{t(screenName + "query.error")}</h2>}
                             {error && <h2>{error}</h2>}
                         </>
                     )}
                 </>
             )}
             <InputNameDialog
-                title={ t(screenName + "addDialogTitle") }
+                title={t(screenName + "addDialogTitle")}
                 isDialogOpen={isInputNameDialogOpen}
                 onDialogClose={handleDialogClose}
                 onConfirmButton={handleConfirm}
                 inputName={handleNameChange}
                 initialInputValue={''} />
-            
-             {/* Render SuccessDialog only when isSuccessDialogOpen is true */}
-             {isSuccessDialogOpen && (
+
+            {/* Render SuccessDialog only when isSuccessDialogOpen is true */}
+            {isSuccessDialogOpen && (
                 <SuccessDialog
                     isDialogOpen={isSuccessDialogOpen}
                     onDialogClose={handleDialogClose}

@@ -1,6 +1,6 @@
 # LDS Frontend Web
 
-Este é o repositório para o LDS Frontend Web, uma aplicação web desenvolvido com React e Vite.js.
+Este é o repositório para o LDS Frontend Web, um aplicativo web desenvolvido com React e Vite.js.
 
 ## Instalação
 
@@ -9,6 +9,7 @@ Antes de começar, certifique-se de ter o Node.js instalado em seu ambiente de d
 1. Instale as dependências:
 
 ```bash
+cd LDS_FrontEnd_Web
 npm install
 ```
 

@@ -20,13 +20,23 @@ const userService = {
         }
     },
 
-    updateUserPassword: async(userId: number, updateData: UpdatePasswordDTO) => {
+    // Update user password
+    updateUserPassword: async (userId: number, updateData: UpdatePasswordDTO) => {
         try {
             return await axiosInstance.put(`/user/edit/${userId}/password`, updateData);
         } catch (error) {
             throw new Error(`Error updating user password: ${error}`)
         }
-    }
+    },
+
+    // Change user role to Librarian
+    changeRoleToLibrarian: async (userId: number) => {
+        try {
+            return await axiosInstance.put(`/user/edit/${userId}/role`);
+        } catch (error) {
+            throw new Error(`Error changing user role: ${error}`);
+        }
+    },
 };
 
 export default userService;

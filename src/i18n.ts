@@ -169,7 +169,8 @@ i18n
                             },
                             users: {
                                 1: "Show requests",
-                                2: "Show punishments"
+                                2: "Show punishments",
+                                3: "Change to Librarian"
                             },
                             physicalBooks: {
                                 1: "Arrived",
@@ -254,7 +255,13 @@ i18n
                                 physicalBooks: {
                                     arrived: "Can not change status to arrived",
                                     delete: "Can not delete this physical book"
-                                }
+                                },
+                                user: {
+                                    change_role: "Can not change user role"
+                                },
+                                Notification: {
+                                    create: "Can not create a new notification"
+                                },
                             },
                             inputDate: {
                                 title: "Change deadline",
@@ -315,7 +322,13 @@ i18n
                                 physicalBooks: {
                                     arrived: "Status changed to arrived successfully",
                                     delete: "Physical book deleted successfully"
-                                }
+                                },
+                                user: {
+                                    change_role: "User role changed successfully"
+                                },
+                                notification: {
+                                    create: "New notification created successfully"
+                                },
                             },
                             updatePassword: {
                                 title: "Update Password",
@@ -331,6 +344,18 @@ i18n
                                 title: "Add Language",
                                 languageName: "Name",
                                 languageAlias: "Alias",
+                                actions: {
+                                    1: "Close",
+                                    2: "Add"
+                                }
+                            },
+                            addNotification: {
+                                title: "Add Notification",
+                                input: {
+                                    title: "Title",
+                                    description: "Description",
+                                    date: "Date",
+                                },
                                 actions: {
                                     1: "Close",
                                     2: "Add"
@@ -776,7 +801,8 @@ i18n
                             },
                             users: {
                                 1: "Ver pedidos",
-                                2: "Ver punições"
+                                2: "Ver punições",
+                                3: "Mudar para Bibliotecário"
                             },
                             physicalBooks: {
                                 1: "Chegou",
@@ -861,6 +887,12 @@ i18n
                                 physicalBooks: {
                                     arrived: "Não foi possivel alterar o estado para chegou",
                                     delete: "Não foi possivel eliminar este livro fisico"
+                                },
+                                user: {
+                                    change_role: "Não foi possivel alterar o papel do utilizador"
+                                },
+                                notification: {
+                                    create: "Não foi possivel criar uma nova notificação"
                                 }
                             },
                             inputDate: {
@@ -922,6 +954,12 @@ i18n
                                 physicalBooks: {
                                     arrived: "Estado alterado para chegou com sucesso",
                                     delete: "Livro fisico eliminado com sucesso"
+                                },
+                                user: {
+                                    change_role: "Papel do utilizador alterado com sucesso"
+                                },
+                                notification: {
+                                    create: "Notificação criada com sucesso"
                                 }
                             },
                             updatePassword: {
@@ -938,6 +976,18 @@ i18n
                                 title: "Adicionar Idioma",
                                 languageName: "Nome",
                                 languageAlias: "Alias",
+                                actions: {
+                                    1: "Fechar",
+                                    2: "Adicionar"
+                                }
+                            },
+                            addNotification: {
+                                title: "Adicionar Notificação",
+                                input: {
+                                    title: "Título",
+                                    description: "Descrição",
+                                    date: "Data",
+                                },
                                 actions: {
                                     1: "Fechar",
                                     2: "Adicionar"

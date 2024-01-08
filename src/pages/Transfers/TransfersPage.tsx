@@ -22,11 +22,11 @@ const TransfersPage = () => {
     const [error, setError] = useState(false);
 
     const { user } = useAuth();
+
     const navigate = useNavigate();
 
     useEffect(() => {
         setIsLoading(true);
-
         const fetchData = async () => {
             try {
                 const response = await transferService.getAllTransfersByLibraryId(user.LibraryId);

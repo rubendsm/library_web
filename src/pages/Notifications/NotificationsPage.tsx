@@ -3,10 +3,13 @@ import { useTranslation } from "react-i18next";
 import { Notifications } from "@mui/icons-material";
 import { useState, useEffect } from "react";
 import GridTable from "@/components/table/GridTable";
-import { useNavigate } from "react-router-dom";
-import { Notification } from "@/models/Notification";
+import { Notification, NotificationDTO } from "@/models/Notification";
 import notificationService from "@/services/notificationService";
 import { useAuth } from "@/context/AuthContext";
+import SuccessDialog from "@/components/dialogs/SuccessDialog";
+import FailureDialog from "@/components/dialogs/FailureDialog";
+import AddNotificationDialog from "@/components/dialogs/AddNotificationDialog";
+import { set } from "date-fns";
 
 const NotificationsPage = () => {
     const { t } = useTranslation();
@@ -18,9 +21,13 @@ const NotificationsPage = () => {
     const [error, setError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [update, setUpdate] = useState(false);
+    const [isAddNotificationDialogOpen, setAddNotificationDialogOpen] = useState(false);
+    const [isSuccessDialogOpen, setSuccessDialogOpen] = useState(false);
+    const [isFailureDialogOpen, setFailureDialogOpen] = useState(false);
+    const [msg_success, setMsgSucess] = useState("");
+    const [msg_failure, setMsgFailure] = useState("");
 
     const screenName = "pages.NotificationsPage.";
-    const navigate = useNavigate();
     const { user } = useAuth();
 
     useEffect(() => {
@@ -74,11 +81,37 @@ const NotificationsPage = () => {
     }, [searchQuery, activeNotifications]);
 
     const handleAddButton = () => {
-        //navigate('/notifications/add');
+        setAddNotificationDialogOpen(true);
     }
 
     const handleMenuClose = () => {
         setUpdate(true);
+    }
+
+    const handleSubmit = async (notificationData: NotificationDTO) => {
+        setAddNotificationDialogOpen(false);
+
+        try {
+            const response = await notificationService.createNotification(notificationData);
+
+            if (response.status === 201) {
+                setMsgSucess("components.dialogs.success.notification.create");
+                setSuccessDialogOpen(true);
+                setUpdate(true);
+            } else {
+                setMsgSucess("components.dialogs.failure.notification.create");
+                setFailureDialogOpen(true);
+            }
+        } catch (error: any) {
+            setMsgFailure("components.dialogs.failure.error.500");
+            setFailureDialogOpen(true);
+        }
+    }
+
+    const handleDialogClose = () => {
+        setAddNotificationDialogOpen(false);
+        setSuccessDialogOpen(false);
+        setFailureDialogOpen(false);
     }
 
     return (
@@ -134,6 +167,11 @@ const NotificationsPage = () => {
                     </>
                 )}
             </>
+            <AddNotificationDialog isDialogOpen={isAddNotificationDialogOpen} onDialogClose={handleDialogClose} onSubmit={handleSubmit} />
+            {/* Render SuccessDialog only when isSuccessDialogOpen is true */}
+            {isSuccessDialogOpen && (<SuccessDialog isDialogOpen={isSuccessDialogOpen} onDialogClose={handleDialogClose} msg={t(msg_success)} />)}
+            {/* Render FailureDialog only when isFailureDialogOpen is true */}
+            {isFailureDialogOpen && (<FailureDialog isDialogOpen={isFailureDialogOpen} onDialogClose={handleDialogClose} msg={t(msg_failure)} />)}
         </div>
     );
 }

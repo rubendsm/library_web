@@ -11,7 +11,6 @@ import { Button } from 'react-bootstrap';
 import GridTable from '@/components/table/GridTable';
 import physicalBookService from '@/services/physicalBookService';
 import { PhysicalBook } from '@/models/PhysicalBook';
-import { set } from 'date-fns';
 import notificationService from '@/services/notificationService';
 import { Notification } from '@/models/Notification';
 
@@ -29,7 +28,6 @@ function LibrarianFrontPage() {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        setIsLoading(true);
 
         const fetchTransfers = async () => {
             try {
@@ -88,12 +86,26 @@ function LibrarianFrontPage() {
             }
         };
 
+        const today = new Date();
+        setDate(today.getDate() + " " + t('months.' + today.getMonth()) + " " + today.getFullYear());
+
+        fetchNotifications();
+        fetchTransfers();
+        fetchRequests();
+
+    }, [user.LibraryId]);
+
+    useEffect(() => {
+        setIsLoading(true);
+
         const fetchCopiesTransfer = async () => {
             try {
                 const response = await physicalBookService.getAllPhysicalBooksWithTransferStatusForLibrary(user.LibraryId);
 
                 if (response.status === 200) {
                     setPhysicalBooks(response.data);
+                } else {
+                    setPhysicalBooks([]);
                 }
 
             } catch (error) {
@@ -101,19 +113,11 @@ function LibrarianFrontPage() {
             }
         }
 
-        const today = new Date();
-        setDate(today.getDate() + " " + t('months.' + today.getMonth()) + " " + today.getFullYear());
-
-        //fetchData();
         fetchCopiesTransfer();
-        fetchNotifications();
-        fetchTransfers();
-        fetchRequests();
-
         setUpdate(false);
         setIsLoading(false);
 
-    }, [user.LibraryId, update]);
+    }, [update]);
 
     const handleMenuClose = () => {
         setUpdate(true);

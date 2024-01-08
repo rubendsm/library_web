@@ -6,6 +6,7 @@ import { User } from '@/models/User';
 import userService from '@/services/userService';
 import { useAuth } from '@/context/AuthContext';
 import { useTranslation } from 'react-i18next';
+import { set } from 'date-fns';
 
 export const screenName = "pages.UsersPage.";
 
@@ -16,6 +17,7 @@ const UsersPage = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [update, setUpdate] = useState(false);
 
     const { user } = useAuth();
 
@@ -29,6 +31,9 @@ const UsersPage = () => {
                 if (response.status === 200) {
                     setData(response.data);
                     setFilteredData(response.data);
+                } else {
+                    setData([]);
+                    setFilteredData([]);
                 }
 
             } catch (error: any) {
@@ -38,7 +43,8 @@ const UsersPage = () => {
 
         fetchData();
         setIsLoading(false);
-    }, []);
+        setUpdate(false);
+    }, [update]);
 
     useEffect(() => {
         // Filter data based on the search query
@@ -52,7 +58,9 @@ const UsersPage = () => {
         }
     }, [searchQuery]);
 
-    const handleMenuClose = () => { };
+    const handleMenuClose = () => {
+        setUpdate(true);
+    };
 
     return (
         <div>

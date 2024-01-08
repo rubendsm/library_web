@@ -176,14 +176,14 @@ export const getColumns = <T extends RowType>(columnName: string, onMenuOpen: (e
         { field: 'emittedDate', headerName: t(screenName + "notifications.emittedDate"), flex: 1, align: 'center', headerAlign: 'center', headerClassName: 'header' },
         { field: 'endDate', headerName: t(screenName + "notifications.endDate"), flex: 1, align: 'center', headerAlign: 'center', headerClassName: 'header' },
         { field: 'forAll', headerName: t(screenName + "notifications.forAll"), flex: 1, align: 'center', headerAlign: 'center', headerClassName: 'header' },
-        {
+        /*{
           field: 'actions', headerName: '', flex: 1, align: 'center', headerAlign: 'center', disableColumnMenu: true, sortable: false, headerClassName: 'header',
           renderCell: (params) => (
             <IconButton sx={{ color: 'black' }} onClick={(event) => onMenuOpen(event, params.row as T)}>
               <Settings />
             </IconButton>
           ),
-        }
+        } */
       ]
     case 'languages':
       return [

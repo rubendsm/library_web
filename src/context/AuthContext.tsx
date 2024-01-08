@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import authService from '../services/AuthService';
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
+import { AuthUser } from '@/models/Auth';
 
 const AuthContext = createContext<any>(undefined);
 
@@ -10,6 +11,7 @@ export default AuthContext;
 interface Props {
     children: React.ReactNode;
 }
+
 
 const generateContextData = (user: any, token: any, handleLogin: any, logoutUser: any) => ({
     user,
@@ -21,7 +23,12 @@ const generateContextData = (user: any, token: any, handleLogin: any, logoutUser
 export const AuthProvider: React.FC<Props> = ({ children }) => {
 
     const [token, setToken] = useState(() => localStorage.getItem('token') ? localStorage.getItem('token') : null);
-    const [user, setUser] = useState(() => token ? jwtDecode(token) : null);
+    const [user, setUser] = useState<AuthUser | null>(() => {
+        if (token) {
+            return jwtDecode<AuthUser>(token);
+        }
+        return null;
+    });
     const [loading, setLoading] = useState(true);
 
     const navigate = useNavigate();
@@ -38,7 +45,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
 
             if (response.status === 200) {
                 const accessToken = response.data;
-                const decodedToken: any = jwtDecode(accessToken)
+                const decodedToken = jwtDecode<AuthUser>(accessToken);
 
                 // Check if the user has the required role
                 const { 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role': role } = decodedToken;
@@ -72,6 +79,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
                 setUser(null)
                 setToken(null)
                 localStorage.removeItem('token')
+                localStorage.removeItem('library')
                 navigate('/login')
             }
 
@@ -80,6 +88,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
             setUser(null)
             setToken(null)
             localStorage.removeItem('token')
+            localStorage.removeItem('library')
             navigate('/login')
 
         }
@@ -96,28 +105,28 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
                 setLoading(false);
                 return;
             }
-        }
 
-        // Token doesn't exist or has expired, try refreshing
-        try {
-            const response = await authService.refreshToken();
+            // Token doesn't exist or has expired, try refreshing
+            try {
+                const response = await authService.refreshToken();
 
-            if (response.status === 200) {
-                setToken(response.data);
-                setUser(jwtDecode(response.data));
-                localStorage.setItem('token', response.data);
-            } else {
-                setUser(null)
-                setToken(null)
-                localStorage.removeItem('token')
-                navigate('/login')
+                if (response.status === 200) {
+                    setToken(response.data);
+                    setUser(jwtDecode<AuthUser>(response.data));
+                    localStorage.setItem('token', response.data);
+                } else {
+                    setUser(null)
+                    setToken(null)
+                    localStorage.removeItem('token')
+                    navigate('/login')
+                }
+
+            } catch (error) {
+                console.error("Error during token refresh:", error);
             }
-
-        } catch (error) {
-            console.error("Error during token refresh:", error);
         }
-        setLoading(false);
 
+        setLoading(false);
 
     };
 

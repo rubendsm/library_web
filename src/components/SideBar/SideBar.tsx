@@ -34,6 +34,11 @@ import libraryService from '@/services/libraryService';
 import { useTranslation } from 'react-i18next';
 import LanguageIcon from '@mui/icons-material/Language';
 import TranslateIcon from "@mui/icons-material/Translate";
+import { Library } from '@/models/Library';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import { useNavigate } from 'react-router-dom';
+
 
 const drawerWidth = 240;
 
@@ -110,13 +115,16 @@ export default function MiniDrawer() {
     const { t, i18n } = useTranslation();
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [libraryName, setLibraryName] = React.useState<string>(() => {
-        return localStorage.getItem('libraryName') || "";
-    });
     const { user, logoutUser } = useAuth();
     const [userMenuAnchorEl, setUserMenuAnchorEl] = React.useState<null | HTMLElement>(null);
     const [languageMenuAnchorEl, setLanguageMenuAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [libraries, setLibraries] = React.useState<Library[]>([]);
+    const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+    const [selectedLibrary, setSelectedLibrary] = React.useState<Library>(() => {
+        const library = localStorage.getItem('library');
+        return library ? JSON.parse(library) : null;
+    });
+    const navigate = useNavigate();
 
     const screenName = "components.SideBar."
 
@@ -127,12 +135,11 @@ export default function MiniDrawer() {
 
     useEffect(() => {
         if (!user) return;
+        const savedLibrary = localStorage.getItem('library');
 
-        const savedLibraryName = localStorage.getItem('libraryName');
-
-        if (savedLibraryName) {
+        if (savedLibrary) {
             // Se o nome da biblioteca estiver no localStorage, use-o
-            setLibraryName(savedLibraryName);
+            setSelectedLibrary(JSON.parse(savedLibrary));
         } else {
             // Caso contrário, faça o pedido para obter o nome da biblioteca
             const fetchData = async () => {
@@ -140,11 +147,10 @@ export default function MiniDrawer() {
                     const response = await libraryService.getLibraryById(user.LibraryId);
 
                     if (response.status === 200) {
-                        const fetchedLibraryName = response.data.libraryAlias;
-                        setLibraryName(fetchedLibraryName);
-
+                        const fetchedLibrary = response.data;
+                        setSelectedLibrary(fetchedLibrary);
                         // Salve o nome da biblioteca no localStorage para uso futuro
-                        localStorage.setItem('libraryName', fetchedLibraryName);
+                        localStorage.setItem('library', JSON.stringify(response.data));
                     }
                 } catch (error) {
                     console.error(error);
@@ -155,6 +161,38 @@ export default function MiniDrawer() {
             fetchData();
         }
     }, [user]);
+
+    const fetchLibraries = async () => {
+        try {
+            const response = await libraryService.getAllLibraries();
+
+            if (response.status === 200) {
+                setLibraries(response.data);
+            } else {
+                setLibraries([]);
+            }
+        } catch (error) {
+            console.error(error);
+            setLibraries([]);
+        }
+    }
+
+    const handleMenuOpen = () => {
+        // Fetch the libraries when the menu is opened
+        fetchLibraries();
+        setIsMenuOpen(true);
+    };
+
+    const handleMenuClose = () => {
+        setIsMenuOpen(false);
+    };
+
+    const handleChange = (event: any) => {
+        setSelectedLibrary(event.target.value);
+        localStorage.setItem('library', JSON.stringify(event.target.value));
+        user.LibraryId = event.target.value.libraryId;
+        navigate('/');
+    };
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -208,10 +246,35 @@ export default function MiniDrawer() {
                             >
                                 <MenuIcon />
                             </IconButton>
-                            <Typography variant="h6" noWrap component="div">
-                                {/* TODO: Código para obter a biblioteca assim que seja feito o login */}
-                                {libraryName}
-                            </Typography>
+                            {user && user["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] === 'Admin' ? (
+                                <FormControl fullWidth>
+                                    <Select
+                                        labelId="library-dropdown-label"
+                                        id="library-dropdown"
+                                        value={selectedLibrary}
+                                        onChange={handleChange}
+                                        onOpen={handleMenuOpen}
+                                        onClose={handleMenuClose}
+                                        open={isMenuOpen}
+                                        sx={{ width: 700 }}
+                                    >
+                                        {selectedLibrary && (
+                                            <MenuItem value={selectedLibrary} disabled>
+                                                {`${selectedLibrary.libraryName} - ${selectedLibrary.libraryAlias}`}
+                                            </MenuItem>
+                                        )}
+                                        {libraries.map((library) => (
+                                            <MenuItem key={library.libraryId} value={library}>
+                                                {library.libraryName + ' - ' + library.libraryAlias}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            ) : (
+                                <Typography variant="h6" noWrap component="div">
+                                    {selectedLibrary.libraryName + ' - ' + selectedLibrary.libraryAlias}
+                                </Typography>
+                            )}
                             <IconButton
                                 color="inherit"
                                 edge="end"
@@ -300,10 +363,11 @@ export default function MiniDrawer() {
                             ))}
                         </List>
                     </Drawer>
-                </Box>
+                </Box >
             ) : (
                 null
-            )}
+            )
+            }
         </>
     );
 }

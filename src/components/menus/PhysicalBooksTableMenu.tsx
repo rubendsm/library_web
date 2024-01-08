@@ -50,7 +50,7 @@ const PhysicalBooksTableMenu: React.FC<PhysicalBooksTableMenuProps> = ({ selecte
 
     const handleArrived = async () => {
         try {
-            const response = await physicalBookService.UpdatePhysicalBookStatus(selectedRow.physicalBookId, user.LibraryId);
+            const response = await physicalBookService.updatePhysicalBookStatus(selectedRow.physicalBookId, user.LibraryId);
 
             if (response.status === 201) {
                 setMsgSucess("components.dialogs.success.physicalBooks.arrived");
