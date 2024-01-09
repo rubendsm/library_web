@@ -272,7 +272,9 @@ export default function MiniDrawer() {
                                 </FormControl>
                             ) : (
                                 <Typography variant="h6" noWrap component="div">
-                                    {selectedLibrary.libraryName + ' - ' + selectedLibrary.libraryAlias}
+                                    {selectedLibrary
+                                        ? `${selectedLibrary.libraryName} - ${selectedLibrary.libraryAlias}`
+                                        : 'No Library Selected'}
                                 </Typography>
                             )}
                             <IconButton
