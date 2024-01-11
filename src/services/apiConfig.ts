@@ -1,10 +1,7 @@
 import axios from 'axios';
-const baseURL = process.env.BACKEND_URL;
-console.log('baseURL:', baseURL);
-console.log('Variáveis de Ambiente:', process.env);
 
 const instance = axios.create({
-    baseURL: baseURL,
+    baseURL: 'https://grouplibrarymanagmentapi.azurewebsites.net/api',
     withCredentials: true,
 });
 
