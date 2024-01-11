@@ -30,7 +30,7 @@ const ProfilePage = () => {
 
     const screenName = "pages.ProfilePage.";
     const msg_failure_base = "components.dialogs.failure.password.";
-    const msg_success = "components.dialogs.sucess.password";
+    const msg_success = "components.dialogs.success.password";
 
     useEffect(() => {
         setIsLoading(true);

@@ -43,7 +43,8 @@ i18n
                                 notifications: "Notifications",
                                 evaluations: "Evaluations",
                                 authors: "Authors",
-                                categories: "Categories"
+                                categories: "Categories",
+                                languages: "Languages"
                             },
                             language: {
                                 portuguese: "Portuguese",
@@ -675,7 +676,8 @@ i18n
                                 notifications: "Notificações",
                                 evaluations: "Avaliações",
                                 authors: "Autores",
-                                categories: "Categorias"
+                                categories: "Categorias",
+                                languages: "Idiomas"
                             },
                             language: {
                                 portuguese: "Português",
